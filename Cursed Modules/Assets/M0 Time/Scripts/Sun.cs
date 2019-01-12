@@ -7,7 +7,7 @@ public class Sun : MonoBehaviour {
 	public float TimeMultiplier = 1f;
 	public float Count;
 
-	public float SunDimTime = 0.5f;
+	public float SunDimTime = 0.001f;
 	float[] SunIntensity = {0.5f, 1f, 0.25f, 0f};
 
 	public DayPhase _dayPhase;
@@ -31,10 +31,8 @@ public class Sun : MonoBehaviour {
 
 		if (!GlobVars.Paused) {
 			Count += GameSpeed;
-			transform.RotateAround(transform.position, transform.right, 0.25f);
 			if (Count >= 60) {
 				Count -= 60;
-				//transform.RotateAround(transform.position, transform.right, 15f);
 				GlobVars.Hour ++;
 				if (GlobVars.Hour > 24) {
 					GlobVars.Hour = 0;
@@ -43,8 +41,8 @@ public class Sun : MonoBehaviour {
 			}
 		}
 		GlobVars.Mins = (int) Count;
-
-		//transform.localEulerAngles = new Vector3(Mathf.Lerp(transform.localEulerAngles.x, ((GlobVars.Mins) * GlobVars.Hour * 0.25f), GameSpeed), 0, 0);
+		transform.eulerAngles = new Vector3 (-90, 0, 0);
+		transform.RotateAround(transform.position, transform.up, -0.25f * (Count + (GlobVars.Hour * 60)));
 
 		if (GlobVars.Hour >= GlobVars.SunChangeTime[0] && GlobVars.Hour < GlobVars.SunChangeTime[1]) { //Dawn
 			
