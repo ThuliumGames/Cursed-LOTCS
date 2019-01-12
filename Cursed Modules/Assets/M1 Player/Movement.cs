@@ -16,15 +16,21 @@ public class Movement : MonoBehaviour {
 	Vector3 PrevVel;
 	
 	void Update () {
-		if (!GlobVars.PlayerPaused && !GlobVars.Paused) {
+		if (!GlobVars.Paused) {
 			Pos = transform.position;
 			GetComponent<Rigidbody>().isKinematic = false;
 			if (WasPaused) {
 				GetComponent<Rigidbody>().velocity = PrevVel;
 				WasPaused = false;
 			}
-			Anim.SetFloat("VSpeed", Mathf.Lerp (Anim.GetFloat("VSpeed"), SSInput.LVert[0], Acceleration * Time.deltaTime));
-			Anim.SetFloat("HSpeed", Mathf.Lerp (Anim.GetFloat("HSpeed"), SSInput.LHor[0], Acceleration * Time.deltaTime));
+			
+			if (!GlobVars.PlayerPaused) {
+				Anim.SetFloat("VSpeed", Mathf.Lerp (Anim.GetFloat("VSpeed"), SSInput.LVert[0], Acceleration * Time.deltaTime));
+				Anim.SetFloat("HSpeed", Mathf.Lerp (Anim.GetFloat("HSpeed"), SSInput.LHor[0], Acceleration * Time.deltaTime));
+			} else {
+				Anim.SetFloat("VSpeed", Mathf.Lerp (Anim.GetFloat("VSpeed"), 0, Acceleration * Time.deltaTime));
+				Anim.SetFloat("HSpeed", Mathf.Lerp (Anim.GetFloat("HSpeed"), 0, Acceleration * Time.deltaTime));
+			}
 		} else {
 			if (!WasPaused) {
 				PrevVel = GetComponent<Rigidbody>().velocity;
