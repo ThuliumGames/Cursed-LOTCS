@@ -13,10 +13,13 @@ public class GlobVars : MonoBehaviour {
 	public static string[] Quests;
 	public static string[] DoneQuests;
 	//Interact
+	public static GameObject InteractObject;
+	public static GameObject ClosestInteractable;
+	public static bool Interacting;
 	public static bool NearInteractable;
 	public static string InteractText;
 	//Time
-	public static int Days;
+	public static int Days = 1;
 	public static int Hour;
 	public static int Mins;
 	public static int[] SunChangeTime = {6, 8, 18, 20};
