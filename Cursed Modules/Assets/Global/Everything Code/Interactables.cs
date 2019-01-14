@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Interactables : MonoBehaviour {
 	
+	public bool AutoInteract;
 	public float Range;
 	public string ObjectText;
 	public string MessageName;
@@ -32,10 +33,12 @@ public class Interactables : MonoBehaviour {
 			GlobVars.ClosestInteractable = this.gameObject;
 		}
 
-		if (Dist == DFP && DFP <= Range) {
-			GlobVars.NearInteractable = true;
-			GlobVars.InteractText = ObjectText;
-			if (SSInput.A[0] == "Pressed" && !GlobVars.PlayerPaused && !GlobVars.Reading) {
+		if ((Dist == DFP || AutoInteract) && DFP <= Range) {
+			if (!AutoInteract) {
+				GlobVars.NearInteractable = true;
+				GlobVars.InteractText = ObjectText;
+			}
+			if ((SSInput.A[0] == "Pressed" || AutoInteract) && !GlobVars.PlayerPaused && !GlobVars.Reading && !GlobVars.Interacting) {
 				if (KeepInteract) {
 					GlobVars.InteractObject = this.gameObject;
 					GlobVars.Interacting = true;

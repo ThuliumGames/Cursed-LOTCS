@@ -41,8 +41,8 @@ public class Sun : MonoBehaviour {
 			}
 		}
 		GlobVars.Mins = (int) Count;
-		transform.eulerAngles = new Vector3 (-90, 0, 0);
-		transform.RotateAround(transform.position, transform.up, -0.25f * (Count + (GlobVars.Hour * 60)));
+		transform.localEulerAngles = new Vector3 (-90, 0, 0);
+		transform.RotateAround(transform.position, GameObject.Find("SunAngler").transform.right, -0.25f * (Count + (GlobVars.Hour * 60)));
 
 		if (GlobVars.Hour >= GlobVars.SunChangeTime[0] && GlobVars.Hour < GlobVars.SunChangeTime[1]) { //Dawn
 			

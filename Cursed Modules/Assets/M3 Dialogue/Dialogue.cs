@@ -34,8 +34,7 @@ public class CostomCode {
  }
 
 public class Dialogue : MonoBehaviour {
-	
-	public bool AutoStart;
+	bool StopInteract;
 	bool CanGo = true;
 	[Header("")]
 	public Canvas DialogueCanvas;
@@ -50,7 +49,7 @@ public class Dialogue : MonoBehaviour {
 	public TextAnchor TextAlign;
 	public float WT = 0.05f;
 	[Header("")]
-	[Header("Commands: > = Line : * = Blue : ¡ = Large")]
+	[Header("Commands: > = Line : # = Blue : * = Large : % = Small")]
 	[Header("[ = Auto : $ = Question : _ = End : ~ = Command")]
 	[Header("")]
 	public SubArray[] DialogueVariables;
@@ -71,6 +70,11 @@ public class Dialogue : MonoBehaviour {
 	
 	void Update () {
 		
+		if (StopInteract) {
+			StopInteract = false;
+			GlobVars.Interacting = false;
+		}
+		
 		if (isMoving) {
 			GameObject.Find("Main Camera").GetComponentInParent<CamControl>().enabled = false;
 			GameObject.Find("Main Camera").transform.position = Vector3.Lerp (GameObject.Find("Main Camera").transform.position, DialogueVariables[TextToRead].CamPos, DialogueVariables[TextToRead].MoveSpeed*Time.deltaTime);
@@ -84,12 +88,6 @@ public class Dialogue : MonoBehaviour {
 		}
 		
 		if (!GlobVars.PlayerPaused || GlobVars.Reading) {
-			
-			if (GlobVars.NearInteractable && GlobVars.ClosestInteractable == this.gameObject) {
-				if (AutoStart && CanGo && !GlobVars.Reading) {
-					Initiate();
-				}
-			}
 		
 			if (GlobVars.InteractObject == this.gameObject) {
 			
@@ -106,7 +104,8 @@ public class Dialogue : MonoBehaviour {
 								TextToRead = DialogueVariables[TextToRead].NextText;
 								DialogueCanvas.gameObject.SetActive(false);
 								Writing = false;
-								GlobVars.PlayerPaused = false;
+								StopInteract = true;
+								GlobVars.InteractObject = null;
 								GlobVars.Reading = false;
 								GoToNext.SetActive(false);
 								isMoving = false;
@@ -264,7 +263,7 @@ public class Dialogue : MonoBehaviour {
 								RegWrite.text = SizeText + "<size="+ DialogueVariables[TextToRead].TextSize*2 + ">" + SizeLetters + "</size>";
 							} else if (isSmall) {
 								SmallLetters += C;
-								RegWrite.text = SmallText + "<size="+ DialogueVariables[TextToRead].TextSize/2 + ">" + SizeLetters + "</size>";
+								RegWrite.text = SmallText + "<size="+ DialogueVariables[TextToRead].TextSize/2 + ">" + SmallLetters + "</size>";
 							} else {
 								RegWrite.text += C;
 							}
@@ -320,13 +319,8 @@ public class Dialogue : MonoBehaviour {
 		}
 	}
 	
-	void MakeNotAuto() {
-		AutoStart = false;
-	}
-	
 	void Initiate () {
 		CanGo = false;
-		GlobVars.PlayerPaused = true;
 		GlobVars.Reading = true;
 		DialogueCanvas.gameObject.SetActive(true);
 		BackgroundImage.sprite = BackgroundToUse;
