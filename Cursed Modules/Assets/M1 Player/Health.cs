@@ -8,7 +8,7 @@ public class Health : MonoBehaviour {
 	
 	public float BaseResistance = 5;
 	
-	public LayerMask HurtLayer;
+	public int HurtLayer;
 	
 	float T;
 	
@@ -34,7 +34,7 @@ public class Health : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter (Collider Other) {
-		if (Other.gameObject.layer == HurtLayer && Other.GetComponent<ItemObject>()) {
+		if (Other.gameObject.layer == HurtLayer && Other.GetComponent<ItemObject>() != null) {
 			Wound += Other.GetComponent<ItemObject>().AssociatedItem.ProgNum/BaseResistance;
 			Wound = (int)Wound;
 		}

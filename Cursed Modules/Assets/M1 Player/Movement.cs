@@ -25,8 +25,8 @@ public class Movement : MonoBehaviour {
 			}
 			
 			if (!GlobVars.PlayerPaused) {
-				Anim.SetFloat("VSpeed", Mathf.Lerp (Anim.GetFloat("VSpeed"), SSInput.LVert[0], Acceleration * Time.deltaTime));
-				Anim.SetFloat("HSpeed", Mathf.Lerp (Anim.GetFloat("HSpeed"), SSInput.LHor[0], Acceleration * Time.deltaTime));
+				Anim.SetFloat("VSpeed", Mathf.Lerp (Anim.GetFloat("VSpeed"), /*SSInput.LVert[0]*/ Input.GetAxis("Vertical"), Acceleration * Time.deltaTime));
+				Anim.SetFloat("HSpeed", Mathf.Lerp (Anim.GetFloat("HSpeed"), /*SSInput.LHor[0]*/ Input.GetAxis("Horizontal"), Acceleration * Time.deltaTime));
 			} else {
 				Anim.SetFloat("VSpeed", Mathf.Lerp (Anim.GetFloat("VSpeed"), 0, Acceleration * Time.deltaTime));
 				Anim.SetFloat("HSpeed", Mathf.Lerp (Anim.GetFloat("HSpeed"), 0, Acceleration * Time.deltaTime));
