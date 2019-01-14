@@ -12,7 +12,7 @@ public class CamControl : MonoBehaviour {
 	public float Up;
 	
 	void Update () {
-		if (!GlobVars.PlayerPaused || GlobVars.Reading) {
+		if (!GlobVars.Paused) {
 			transform.position = ObjToFollow.position;
 			transform.eulerAngles = new Vector3 (0, transform.eulerAngles.y, 0);
 			ObjToFollow.eulerAngles = transform.eulerAngles;
