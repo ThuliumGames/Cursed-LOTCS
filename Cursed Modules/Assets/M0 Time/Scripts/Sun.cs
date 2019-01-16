@@ -17,6 +17,8 @@ public class Sun : MonoBehaviour {
 	Light SunLight;
 	float GameSpeed;
 	
+	public GUIStyle style;
+	
 
 	void Start () {
 		SunLight = GetComponent <Light>();
@@ -28,14 +30,18 @@ public class Sun : MonoBehaviour {
 
 	void Update () {
 		GameSpeed = Time.deltaTime * TimeMultiplier;
+		
+		if (GlobVars.Days > 365 || GlobVars.Days < 1) {
+			GlobVars.Days = 1;
+		}
 
 		if (!GlobVars.Paused) {
 			Count += GameSpeed;
 			if (Count >= 60) {
-				Count -= 60;
+				Count = 0;
 				GlobVars.Hour ++;
 				if (GlobVars.Hour > 24) {
-					GlobVars.Hour = 0;
+					GlobVars.Hour = 1;
 					GlobVars.Days ++;
 				}
 			}
@@ -67,11 +73,19 @@ public class Sun : MonoBehaviour {
 	}
 
 	void OnGUI () {
-		GUI.Label (new Rect(Screen.width - 50, 5, 100, 20), "Day " + GlobVars.Days);
+		GUI.Label (new Rect(Screen.width - 200, Screen.height - 150, 100, 20), "Day " + GlobVars.Days, style);
 		if (GlobVars.Mins < 10) {
-			GUI.Label (new Rect(Screen.width - 50, 25, 100, 20), GlobVars.Hour + ":" + 0 + GlobVars.Mins);
+			if (GlobVars.Hour <= 12) {
+				GUI.Label (new Rect(Screen.width - 200, Screen.height - 100, 100, 20), GlobVars.Hour + ":" + 0 + GlobVars.Mins, style);
+			} else {
+				GUI.Label (new Rect(Screen.width - 200, Screen.height - 100, 100, 20), (GlobVars.Hour-12) + ":" + 0 + GlobVars.Mins, style);
+			}
 		} else {
-			GUI.Label (new Rect(Screen.width - 50, 25, 100, 20), GlobVars.Hour + ":" + GlobVars.Mins);
+			if (GlobVars.Hour <= 12) {
+				GUI.Label (new Rect(Screen.width - 200, Screen.height - 100, 100, 20), GlobVars.Hour + ":" + GlobVars.Mins, style);
+			} else {
+				GUI.Label (new Rect(Screen.width - 200, Screen.height - 100, 100, 20), (GlobVars.Hour-12) + ":" + GlobVars.Mins, style);
+			}
 		}
 	}
 }
