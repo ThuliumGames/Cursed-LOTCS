@@ -12,6 +12,8 @@ public class Health : MonoBehaviour {
 	
 	float T;
 	
+	bool CanChange;
+	
 	void Update () {
 		if (Wound >= 11) {
 			SendMessage("Die");
