@@ -34,13 +34,8 @@ public class CostomCode {
  }
 
 public class Dialogue : MonoBehaviour {
-	
-	public bool AutoStart;
+	bool StopInteract;
 	bool CanGo = true;
-	public float Range;
-	float OrigRange;
-	public float HeightUp;
-	public bool WithinRange;
 	[Header("")]
 	public Canvas DialogueCanvas;
 	public Image BackgroundImage;
@@ -54,7 +49,7 @@ public class Dialogue : MonoBehaviour {
 	public TextAnchor TextAlign;
 	public float WT = 0.05f;
 	[Header("")]
-	[Header("Commands: > = Line : * = Blue : ¡ = Large")]
+	[Header("Commands: > = Line : # = Blue : * = Large : % = Small")]
 	[Header("[ = Auto : $ = Question : _ = End : ~ = Command")]
 	[Header("")]
 	public SubArray[] DialogueVariables;
@@ -75,122 +70,112 @@ public class Dialogue : MonoBehaviour {
 	
 	void Update () {
 		
+		if (StopInteract) {
+			StopInteract = false;
+			GlobVars.Interacting = false;
+		}
+		
 		if (isMoving) {
 			GameObject.Find("Main Camera").GetComponentInParent<CamControl>().enabled = false;
 			GameObject.Find("Main Camera").transform.position = Vector3.Lerp (GameObject.Find("Main Camera").transform.position, DialogueVariables[TextToRead].CamPos, DialogueVariables[TextToRead].MoveSpeed*Time.deltaTime);
 			GameObject.Find("Main Camera").transform.rotation = Quaternion.Slerp (GameObject.Find("Main Camera").transform.rotation, Quaternion.Euler (DialogueVariables[TextToRead].CamRotation), DialogueVariables[TextToRead].MoveSpeed*Time.deltaTime);
 		} else {
-			if (!GlobVars.Reading) {
+			//if (!GlobVars.Reading) {
 				if (!GameObject.Find("Main Camera").GetComponentInParent<CamControl>().enabled) {
-					GameObject.Find("Main Camera").transform.localPosition = new Vector3 (0, GameObject.Find("Main Camera").GetComponentInParent<CamControl>().Up, -GameObject.Find("Main Camera").GetComponentInParent<CamControl>().Back);
-					GameObject.Find("Main Camera").transform.localEulerAngles = new Vector3 (0,0,0);
 					GameObject.Find("Main Camera").GetComponentInParent<CamControl>().enabled = true;
 				}
-			}
+			//}
 		}
 		
 		if (!GlobVars.PlayerPaused || GlobVars.Reading) {
-			if (Vector3.Distance (transform.position, GameObject.Find("Player").transform.position) <= Range) {
-				WithinRange = true;
-				if (GameObject.Find ("Select").transform.position == transform.position + new Vector3 (0, HeightUp, 0) || Range == 1000000) {
-					if ((SSInput.A[0] == "Pressed" || (AutoStart && CanGo)) && !GlobVars.Reading) {
-						CanGo = false;
-						OrigRange = Range;
-						GlobVars.PlayerPaused = true;
-						GlobVars.Reading = true;
-						DialogueCanvas.gameObject.SetActive(true);
-						BackgroundImage.sprite = BackgroundToUse;
-						RegWrite.alignment = TextAlign;
-						RegWrite.text = "";
-						if (!Writing) {
+		
+			if (GlobVars.InteractObject == this.gameObject) {
+			
+				if (!isQuest) {
+					if (SSInput.A[0] == "Pressed" || SSInput.B[0] == "Pressed") {
+						if (DoneReading) {
+							if (DoneTalking) {
+								DoneReading = false;
+								DoneTalking = false;
+								if (WaitForInput) {
+									Exe (DialogueVariables[TextToRead].CodeToExecute.Length-1);
+									WaitForInput = false;
+								}
+								TextToRead = DialogueVariables[TextToRead].NextText;
+								DialogueCanvas.gameObject.SetActive(false);
+								Writing = false;
+								StopInteract = true;
+								GlobVars.InteractObject = null;
+								GlobVars.Reading = false;
+								GoToNext.SetActive(false);
+								isMoving = false;
+							} else {
+								DoneReading = false;
+								DoneTalking = false;
+								TextToRead = DialogueVariables[TextToRead].NextText;
+								StartCoroutine(Write ());
+								Writing = true;
+							}
+						}
+					}
+				} else {
+					if (SSInput.A[0] == "Pressed") {
+						if (DoneReading) {
 							DoneReading = false;
 							DoneTalking = false;
+							TextToRead = DialogueVariables[TextToRead].NextAnsText[0];
 							StartCoroutine(Write ());
 							Writing = true;
 						}
 					}
-					
-					if (!isQuest) {
-						if (SSInput.A[0] == "Pressed" || SSInput.B[0] == "Pressed") {
-							if (DoneReading) {
-								if (DoneTalking) {
-									DoneReading = false;
-									DoneTalking = false;
-									if (WaitForInput) {
-										Exe (DialogueVariables[TextToRead].CodeToExecute.Length-1);
-										WaitForInput = false;
-									}
-									TextToRead = DialogueVariables[TextToRead].NextText;
-									DialogueCanvas.gameObject.SetActive(false);
-									Writing = false;
-									GlobVars.PlayerPaused = false;
-									GlobVars.Reading = false;
-									GoToNext.SetActive(false);
-									isMoving = false;
-									Range = OrigRange;
-								} else {
-									DoneReading = false;
-									DoneTalking = false;
-									TextToRead = DialogueVariables[TextToRead].NextText;
-									StartCoroutine(Write ());
-									Writing = true;
-								}
-							}
+					if (SSInput.B[0] == "Pressed") {
+						if (DoneReading && AmOfAns > 1) {
+							DoneReading = false;
+							DoneTalking = false;
+							TextToRead = DialogueVariables[TextToRead].NextAnsText[1];
+							StartCoroutine(Write ());
+							Writing = true;
 						}
-					} else {
-						if (SSInput.A[0] == "Pressed") {
-							if (DoneReading) {
-								DoneReading = false;
-								DoneTalking = false;
-								TextToRead = DialogueVariables[TextToRead].NextAnsText[0];
-								StartCoroutine(Write ());
-								Writing = true;
-							}
+					}
+					if (SSInput.X[0] == "Pressed") {
+						if (DoneReading && AmOfAns > 2) {
+							DoneReading = false;
+							DoneTalking = false;
+							TextToRead = DialogueVariables[TextToRead].NextAnsText[2];
+							StartCoroutine(Write ());
+							Writing = true;
 						}
-						if (SSInput.B[0] == "Pressed") {
-							if (DoneReading && AmOfAns > 1) {
-								DoneReading = false;
-								DoneTalking = false;
-								TextToRead = DialogueVariables[TextToRead].NextAnsText[1];
-								StartCoroutine(Write ());
-								Writing = true;
-							}
-						}
-						if (SSInput.X[0] == "Pressed") {
-							if (DoneReading && AmOfAns > 2) {
-								DoneReading = false;
-								DoneTalking = false;
-								TextToRead = DialogueVariables[TextToRead].NextAnsText[2];
-								StartCoroutine(Write ());
-								Writing = true;
-							}
-						}
-						if (SSInput.Y[0] == "Pressed") {
-							if (DoneReading && AmOfAns > 3) {
-								DoneReading = false;
-								DoneTalking = false;
-								TextToRead = DialogueVariables[TextToRead].NextAnsText[3];
-								StartCoroutine(Write ());
-								Writing = true;
-							}
+					}
+					if (SSInput.Y[0] == "Pressed") {
+						if (DoneReading && AmOfAns > 3) {
+							DoneReading = false;
+							DoneTalking = false;
+							TextToRead = DialogueVariables[TextToRead].NextAnsText[3];
+							StartCoroutine(Write ());
+							Writing = true;
 						}
 					}
 				}
-			} else {
-				CanGo = true;
-				WithinRange = false;
 			}
+		} else {
+			CanGo = true;
 		}
 	}
+		
 	IEnumerator Write () {
-		Range = 1000000;
+		
 		if (DialogueVariables[TextToRead].CamPos != new Vector3 (0, 0, 0)) {
 			isMoving = true;
+		} else {
+			isMoving = false;
 		}
+		
 		string ColorText = "";
 		string ColorLetters = "";
 		string SizeText = "";
+		string SmallText = "";
 		string SizeLetters = "";
+		string SmallLetters = "";
 		int Code = 0;
 		RegWrite.color = DialogueVariables[TextToRead].TextColor;
 		RegWrite.fontSize = DialogueVariables[TextToRead].TextSize;
@@ -211,6 +196,7 @@ public class Dialogue : MonoBehaviour {
 		int Skip = 0;
 		bool isColor = false;
 		bool isSize = false;
+		bool isSmall = false;
 		foreach (char C in DialogueVariables[TextToRead].Text) {
 			++Skip;
 			if (C == '[') {
@@ -234,7 +220,7 @@ public class Dialogue : MonoBehaviour {
 						Exe (Code);
 						++Code;
 					}
-				} else if (C == '*') {
+				} else if (C == '#') {
 					if (isColor) {
 						isColor = false;
 					} else {
@@ -242,13 +228,21 @@ public class Dialogue : MonoBehaviour {
 						ColorText = RegWrite.text;
 						isColor = true;
 					}
-				} else if (C == '¡') {
+				} else if (C == '*') {
 					if (isSize) {
 						isSize = false;
 					} else {
 						SizeLetters = "";
 						SizeText = RegWrite.text;
 						isSize = true;
+					}
+				} else if (C == '%') {
+					if (isSmall) {
+						isSmall = false;
+					} else {
+						SmallLetters = "";
+						SmallText = RegWrite.text;
+						isSmall = true;
 					}
 				} else {
 					if (C == '>') {
@@ -267,6 +261,9 @@ public class Dialogue : MonoBehaviour {
 							} else if (isSize) {
 								SizeLetters += C;
 								RegWrite.text = SizeText + "<size="+ DialogueVariables[TextToRead].TextSize*2 + ">" + SizeLetters + "</size>";
+							} else if (isSmall) {
+								SmallLetters += C;
+								RegWrite.text = SmallText + "<size="+ DialogueVariables[TextToRead].TextSize/2 + ">" + SmallLetters + "</size>";
 							} else {
 								RegWrite.text += C;
 							}
@@ -322,7 +319,18 @@ public class Dialogue : MonoBehaviour {
 		}
 	}
 	
-	void MakeNotAuto() {
-		AutoStart = false;
+	void Initiate () {
+		CanGo = false;
+		GlobVars.Reading = true;
+		DialogueCanvas.gameObject.SetActive(true);
+		BackgroundImage.sprite = BackgroundToUse;
+		RegWrite.alignment = TextAlign;
+		RegWrite.text = "";
+		if (!Writing) {
+			DoneReading = false;
+			DoneTalking = false;
+			StartCoroutine(Write ());
+			Writing = true;
+		}
 	}
 }
