@@ -11,6 +11,8 @@ public class CamControl : MonoBehaviour {
 	public float Back;
 	public float Up;
 	
+	public LayerMask LM;
+	
 	void Update () {
 		if (!GlobVars.Paused) {
 			transform.position = ObjToFollow.position;
@@ -23,8 +25,8 @@ public class CamControl : MonoBehaviour {
 			UpDown = Mathf.Clamp (UpDown, Min, Max);
 			transform.RotateAround (ObjToFollow.position+new Vector3 (0,1,0), transform.right, UpDown);
 			RaycastHit Hit;
-			if (Physics.Raycast (ObjToFollow.position, -transform.forward, out Hit, Back)) {
-				transform.Translate (0, 0, Back-Hit.distance);
+			if (Physics.Raycast (ObjToFollow.position+(Vector3.up*Up), -transform.forward, out Hit, Back+0.5f, LM)) {
+				transform.Translate (0, 0, Back-Hit.distance+0.5f);
 			}
 			transform.Rotate (10, 0, 0);
 		}
