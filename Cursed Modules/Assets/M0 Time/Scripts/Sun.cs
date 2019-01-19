@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.ImageEffects;
 using UnityEngine.Rendering.PostProcessing;
 
 public class Sun : MonoBehaviour {
@@ -9,12 +10,8 @@ public class Sun : MonoBehaviour {
 	public float Count;
 
 	public float SunChangeSpeed = 0.01f;
-	public PostProcessVolume PPV;
+	PostProcessVolume PPV;
 	ColorGrading CG;
-
-	public DayPhase _dayPhase;
-
-	public enum DayPhase {Dawn, Day, Dusk, Night}
 
 	Light SunLight;
 	float GameSpeed;
@@ -23,8 +20,8 @@ public class Sun : MonoBehaviour {
 	
 
 	void Start () {
+		PPV = Camera.main.GetComponent<PostProcessVolume>();
 		SunLight = GetComponent <Light>();
-		_dayPhase = DayPhase.Dawn;
 		GlobVars.Hour = 6;
 	}
 	
@@ -52,12 +49,19 @@ public class Sun : MonoBehaviour {
 		}
 		GlobVars.Mins = (int) Count;
 		transform.localEulerAngles = new Vector3 (-90, 0, 0);
-		transform.RotateAround(transform.position, GameObject.Find("SunAngler").transform.right, -0.25f * (Count + (GlobVars.Hour * 60)));
-		if (GlobVars.Hour < 18) {
-			CG.temperature.value = Mathf.Sin((-0.25f * (Count + (GlobVars.Hour * 60)))*Mathf.Deg2Rad)*50;
+		
+		float Angle = -0.25f * (Count + (GlobVars.Hour * 60));
+		
+		transform.RotateAround(transform.position, GameObject.Find("SunAngler").transform.right, Angle);
+		if (GlobVars.Hour < 18 && GlobVars.Hour >= 6) {
+			CG.postExposure.value = Mathf.Lerp (CG.postExposure.value, 0, GameSpeed/10);
+			CG.temperature.value = Mathf.Abs(Mathf.Cos((Angle+90)*Mathf.Deg2Rad)*50);
 		} else {
-			CG.temperature.value = Mathf.Sin((-0.25f * (Count + (GlobVars.Hour * 60)))*Mathf.Deg2Rad)*-50;
+			CG.postExposure.value = Mathf.Lerp (CG.postExposure.value, -3, GameSpeed/10);
+			CG.temperature.value = -Mathf.Abs(Mathf.Cos((Angle)*Mathf.Deg2Rad)*50);
 		}
+		
+		GetComponent<Light>().color = new Color (1, ((-CG.temperature.value+50)/75)+0.25f, ((-CG.temperature.value+50)/50));
 	}
 
 	void OnGUI () {

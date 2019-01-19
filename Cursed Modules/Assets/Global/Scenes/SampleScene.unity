@@ -192,11 +192,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e77cdaf34ab75a34b9b9a6b7eb2a3da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeMultiplier: 60
+  TimeMultiplier: 0.5
   Count: 0
   SunChangeSpeed: 0.01
-  PPV: {fileID: 534669906}
-  _dayPhase: 0
   style:
     m_Name: 
     m_Normal:
@@ -677,9 +675,9 @@ MonoBehaviour:
   screenBlendMode: 0
   sunTransform: {fileID: 481917314}
   radialBlurIterations: 2
-  sunColor: {r: 0.9716981, g: 0.87458307, b: 0.8021093, a: 1}
+  sunColor: {r: 1, g: 0.5310443, b: 0.19339621, a: 1}
   sunThreshold: {r: 0.87, g: 0.74, b: 0.65, a: 1}
-  sunShaftBlurRadius: 3.83
+  sunShaftBlurRadius: 5.22
   sunShaftIntensity: 1.5
   maxRadius: 0.9
   useDepthTexture: 1
