@@ -8,7 +8,7 @@ public class InteractDisplay : MonoBehaviour {
 	public Canvas Disp;
 	
 	void Update () {
-		if (GlobVars.NearInteractable) {
+		if (GlobVars.NearInteractable && !GlobVars.PlayerPaused && !GlobVars.Reading) {
 			Disp.enabled = true;
 			Disp.GetComponentInChildren<Text>().text = GlobVars.InteractText;
 		} else {
