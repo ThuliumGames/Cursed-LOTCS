@@ -460,7 +460,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: a18afb81951d7ef4f82feadd771506f9, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2300004, guid: a18afb81951d7ef4f82feadd771506f9, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -633,7 +633,7 @@ Transform:
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &468253913
 GameObject:
@@ -826,7 +826,7 @@ RectTransform:
   - {fileID: 124342976}
   - {fileID: 1829763373}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1045,7 +1045,7 @@ GameObject:
   - component: {fileID: 550338301}
   - component: {fileID: 550338300}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Man 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1075,25 +1075,25 @@ MonoBehaviour:
   DialogueVariables:
   - TextColor: {r: 1, g: 1, b: 1, a: 1}
     TextSize: 40
-    Text: 'This %is a% Test>Does *the* Test #Work?#'
-    NextText: 1
-    AnsText: 
-    NextAnsText: 
+    Text: Hi My name is Capsule Man$
+    NextText: 0
+    AnsText: 2A.) Hi Capsule Man!>B.) No. Go away.
+    NextAnsText: 0100000004000000
     TimedEnd: 0
     ModOther: {fileID: 0}
     OtherNextText: 0
     DiffName: 
     CamRotation: {x: 0, y: 0, z: 0}
-    CamPos: {x: 0, y: 46.46, z: 0}
-    MoveSpeed: 10
+    CamPos: {x: 0, y: 0, z: 0}
+    MoveSpeed: 0
     CodeToExecute:
     - component: {fileID: 0}
       Command: 
       QuestName: 
   - TextColor: {r: 1, g: 1, b: 1, a: 1}
     TextSize: 40
-    Text: Hello~_
-    NextText: 1
+    Text: 'Here, Have a #Quest#~ '
+    NextText: 2
     AnsText: 
     NextAnsText: 
     TimedEnd: 0
@@ -1106,7 +1106,49 @@ MonoBehaviour:
     CodeToExecute:
     - component: {fileID: 1323873604}
       Command: GiveQuest
-      QuestName: The Quest
+      QuestName: Talk To That Guy
+  - TextColor: {r: 1, g: 1, b: 1, a: 1}
+    TextSize: 60
+    Text: Now come talk to me![
+    NextText: 3
+    AnsText: 
+    NextAnsText: 
+    TimedEnd: 0.1
+    ModOther: {fileID: 936890044}
+    OtherNextText: 1
+    DiffName: Man 2
+    CamRotation: {x: 40, y: -90, z: 0}
+    CamPos: {x: 0, y: 3, z: -22}
+    MoveSpeed: 5
+    CodeToExecute: []
+  - TextColor: {r: 1, g: 1, b: 1, a: 1}
+    TextSize: 40
+    Text: Ok Bye. %Please never talk to me again%_
+    NextText: 3
+    AnsText: 
+    NextAnsText: 
+    TimedEnd: 0
+    ModOther: {fileID: 0}
+    OtherNextText: 0
+    DiffName: 
+    CamRotation: {x: 0, y: 0, z: 0}
+    CamPos: {x: 0, y: 0, z: 0}
+    MoveSpeed: 0
+    CodeToExecute: []
+  - TextColor: {r: 1, g: 1, b: 1, a: 1}
+    TextSize: 40
+    Text: '..._'
+    NextText: 0
+    AnsText: 
+    NextAnsText: 
+    TimedEnd: 0.1
+    ModOther: {fileID: 0}
+    OtherNextText: 0
+    DiffName: 
+    CamRotation: {x: 0, y: 0, z: 0}
+    CamPos: {x: 0, y: 0, z: 0}
+    MoveSpeed: 0
+    CodeToExecute: []
 --- !u!114 &550338301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1189,7 +1231,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &578968449
 Prefab:
@@ -1806,7 +1848,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &712753167
 GameObject:
@@ -2034,8 +2076,168 @@ Transform:
   m_Children:
   - {fileID: 170076735}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: -15}
+--- !u!1 &936890043
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 936890049}
+  - component: {fileID: 936890048}
+  - component: {fileID: 936890047}
+  - component: {fileID: 936890046}
+  - component: {fileID: 936890045}
+  - component: {fileID: 936890044}
+  m_Layer: 0
+  m_Name: Man 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &936890044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 936890043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89ba04c3fe0062440a5e8055267010e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DialogueCanvas: {fileID: 1356308637}
+  BackgroundImage: {fileID: 1964669782}
+  BackgroundToUse: {fileID: 0}
+  RegWrite: {fileID: 1532160080}
+  AnsWrite: {fileID: 1821703584}
+  NameWrite: {fileID: 2016895057}
+  GoToNext: {fileID: 913064142}
+  isSign: 0
+  TextAlign: 0
+  WT: 0.05
+  DialogueVariables:
+  - TextColor: {r: 1, g: 1, b: 1, a: 1}
+    TextSize: 60
+    Text: Talk to that Guy first_
+    NextText: 0
+    AnsText: 
+    NextAnsText: 
+    TimedEnd: 0
+    ModOther: {fileID: 0}
+    OtherNextText: 0
+    DiffName: 
+    CamRotation: {x: 40, y: 90, z: 0}
+    CamPos: {x: -20, y: 3, z: -22}
+    MoveSpeed: 5
+    CodeToExecute:
+    - component: {fileID: 0}
+      Command: 
+      QuestName: 
+  - TextColor: {r: 1, g: 1, b: 1, a: 1}
+    TextSize: 40
+    Text: '*Conglaturation!* You Won!~_'
+    NextText: 1
+    AnsText: 
+    NextAnsText: 
+    TimedEnd: 0
+    ModOther: {fileID: 0}
+    OtherNextText: 0
+    DiffName: 
+    CamRotation: {x: 0, y: 0, z: 0}
+    CamPos: {x: 0, y: 0, z: 0}
+    MoveSpeed: 0
+    CodeToExecute:
+    - component: {fileID: 1323873604}
+      Command: CompleteQuest
+      QuestName: Talk To That Guy
+--- !u!114 &936890045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 936890043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e6bf2af4cb6d4d448d5b0d2a3353160, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AutoInteract: 0
+  Range: 5
+  ObjectText: Talk
+  MessageName: Initiate
+  KeepInteract: 1
+--- !u!136 &936890046
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 936890043}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &936890047
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 936890043}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &936890048
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 936890043}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &936890049
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 936890043}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -20, y: -4, z: -22}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &972026723
 GameObject:
   m_ObjectHideFlags: 0
@@ -2321,8 +2523,8 @@ Canvas:
   m_GameObject: {fileID: 1323873598}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 534669904}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -2437,7 +2639,7 @@ RectTransform:
   - {fileID: 1821703583}
   - {fileID: 2016895056}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2949,7 +3151,7 @@ Transform:
   m_Children:
   - {fileID: 1323873599}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2007705128
 Prefab:
@@ -2988,7 +3190,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4621775052850394, guid: 6013f552bb38843438b516a054b5a572, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6013f552bb38843438b516a054b5a572, type: 2}
@@ -3101,7 +3303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Wound: 0
   BaseResistance: 10
-  RecoveryTime: 2
+  RecoveryTime: 60
   HurtLayer: 10
   isPlayer: 1
   Graphics:

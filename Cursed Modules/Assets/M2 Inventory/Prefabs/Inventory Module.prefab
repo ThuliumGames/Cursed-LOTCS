@@ -2259,7 +2259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Place: 1
-  Slot: 1
+  Slot: 3
   MenuParent: {fileID: 224034882450333114}
   Menu:
   - {fileID: 1097361319336504}
@@ -3264,7 +3264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Place: 1
-  Slot: 0
+  Slot: 2
   MenuParent: {fileID: 224034882450333114}
   Menu:
   - {fileID: 1097361319336504}
@@ -4426,7 +4426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Place: 0
-  Slot: 0
+  Slot: 2
   MenuParent: {fileID: 224034882450333114}
   Menu:
   - {fileID: 1097361319336504}
@@ -5227,7 +5227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Place: 0
-  Slot: 1
+  Slot: 3
   MenuParent: {fileID: 224034882450333114}
   Menu:
   - {fileID: 1097361319336504}
