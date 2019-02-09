@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114897106453808578}
   - component: {fileID: 114227968046406806}
   m_Layer: 0
-  m_Name: Dager
+  m_Name: Dagger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,6 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e6bf2af4cb6d4d448d5b0d2a3353160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AutoInteract: 0
   Range: 5
   ObjectText: Pick Up
   MessageName: PickUp
@@ -125,3 +126,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AssociatedItem: {fileID: 11400000, guid: 213a12e3cb0f382429898cee5180ea82, type: 2}
+  ProgNum: 0

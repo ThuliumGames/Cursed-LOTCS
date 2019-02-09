@@ -65,19 +65,26 @@ public class Sun : MonoBehaviour {
 	}
 
 	void OnGUI () {
-		GUI.Label (new Rect(Screen.width - 200, Screen.height - 150, 100, 20), "Day " + GlobVars.Days, style);
+		
+		string MinsText;
+		string HoursText;
+		
 		if (GlobVars.Mins < 10) {
-			if (GlobVars.Hour <= 12) {
-				GUI.Label (new Rect(Screen.width - 200, Screen.height - 100, 100, 20), GlobVars.Hour + ":" + 0 + GlobVars.Mins, style);
-			} else {
-				GUI.Label (new Rect(Screen.width - 200, Screen.height - 100, 100, 20), (GlobVars.Hour-12) + ":" + 0 + GlobVars.Mins, style);
-			}
+			MinsText = "0";
 		} else {
-			if (GlobVars.Hour <= 12) {
-				GUI.Label (new Rect(Screen.width - 200, Screen.height - 100, 100, 20), GlobVars.Hour + ":" + GlobVars.Mins, style);
-			} else {
-				GUI.Label (new Rect(Screen.width - 200, Screen.height - 100, 100, 20), (GlobVars.Hour-12) + ":" + GlobVars.Mins, style);
-			}
+			MinsText = "";
 		}
+		
+		MinsText += "" + (Mathf.RoundToInt(GlobVars.Mins / 5) * 5);
+		
+		if (GlobVars.Hour > 12) {
+			HoursText = "" + (GlobVars.Hour - 12) + ":" + MinsText + "pm";
+		} else {
+			HoursText = "" + GlobVars.Hour + ":" + MinsText + "am";
+		}
+		
+		GUI.Label (new Rect(Screen.width - 200, Screen.height - 150, 100, 20), "Day " + GlobVars.Days, style);
+		
+		GUI.Label (new Rect(Screen.width - 200, Screen.height - 100, 100, 20), HoursText, style);
 	}
 }
