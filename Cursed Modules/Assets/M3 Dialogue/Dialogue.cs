@@ -76,19 +76,16 @@ public class Dialogue : MonoBehaviour {
 		}
 		
 		if (isMoving) {
-			GameObject.Find("Main Camera").GetComponentInParent<CamControl>().enabled = false;
-			GameObject.Find("Main Camera").transform.position = Vector3.Lerp (GameObject.Find("Main Camera").transform.position, DialogueVariables[TextToRead].CamPos, DialogueVariables[TextToRead].MoveSpeed*Time.deltaTime);
-			GameObject.Find("Main Camera").transform.rotation = Quaternion.Slerp (GameObject.Find("Main Camera").transform.rotation, Quaternion.Euler (DialogueVariables[TextToRead].CamRotation), DialogueVariables[TextToRead].MoveSpeed*Time.deltaTime);
+			Camera.main.GetComponentInParent<CamControl>().enabled = false;
+			Camera.main.transform.position = Vector3.Lerp (Camera.main.transform.position, DialogueVariables[TextToRead].CamPos, DialogueVariables[TextToRead].MoveSpeed*Time.deltaTime);
+			Camera.main.transform.rotation = Quaternion.Slerp (Camera.main.transform.rotation, Quaternion.Euler (DialogueVariables[TextToRead].CamRotation), DialogueVariables[TextToRead].MoveSpeed*Time.deltaTime);
 		} else {
-			//if (!GlobVars.Reading) {
-				if (!GameObject.Find("Main Camera").GetComponentInParent<CamControl>().enabled) {
-					GameObject.Find("Main Camera").GetComponentInParent<CamControl>().enabled = true;
-				}
-			//}
+			if (!Camera.main.GetComponentInParent<CamControl>().enabled) {
+				Camera.main.GetComponentInParent<CamControl>().enabled = true;
+			}
 		}
 		
 		if (!GlobVars.PlayerPaused || GlobVars.Reading) {
-		
 			if (GlobVars.InteractObject == this.gameObject) {
 			
 				if (!isQuest) {

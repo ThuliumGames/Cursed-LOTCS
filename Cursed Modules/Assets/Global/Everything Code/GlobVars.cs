@@ -10,8 +10,8 @@ public class GlobVars : MonoBehaviour {
 	public static bool PlayerPaused;
 	public static bool Reading;
 	//Quests
-	public static string[] Quests;
-	public static string[] DoneQuests;
+	public static string[] Quests = {};
+	public static string[] DoneQuests = {};
 	//Interact
 	public static GameObject InteractObject;
 	public static GameObject ClosestInteractable;

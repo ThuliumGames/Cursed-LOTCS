@@ -23,6 +23,9 @@ public class ItemQuickSelect : MonoBehaviour {
 	int ShieldIm = 0;
 	int SpecialIm = 0;
 	
+	public SVGImage DPad;
+	public Sprite[] AltSprites;
+	
 	void Update () {
 		
 		int TotSwords = 0;
@@ -87,6 +90,8 @@ public class ItemQuickSelect : MonoBehaviour {
 				||
 				(SSInput.DUp[0] == "Down" || SSInput.DDown[0] == "Down" || SSInput.DLeft[0] == "Down" || SSInput.DRight[0] == "Down")) {
 				AnyDPress = true;
+			} else {
+				DPad.sprite = AltSprites[0];
 			}
 			
 			if (AnyDPress) {
@@ -106,22 +111,29 @@ public class ItemQuickSelect : MonoBehaviour {
 				}
 				
 				if (SSInput.DUp[0] == "Pressed") {
+					DPad.sprite = AltSprites[1];
 					++WantedSpecial;
 					if (WantedSpecial > TotSpecials) {
 						WantedSpecial = 1;
 					}
 				}
 				if (SSInput.DLeft[0] == "Pressed") {
+					DPad.sprite = AltSprites[2];
 					++WantedShield;
 					if (WantedShield > TotShields) {
 						WantedShield = 1;
 					}
 				}
 				if (SSInput.DRight[0] == "Pressed") {
+					DPad.sprite = AltSprites[3];
 					++WantedSword;
 					if (WantedSword > TotSwords) {
 						WantedSword = 1;
 					}
+				}
+				
+				if (SSInput.DDown[0] == "Pressed") {
+					DPad.sprite = AltSprites[4];
 				}
 			}
 			

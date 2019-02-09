@@ -80,8 +80,8 @@ public class ItemMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 			}
 		}
 		
-		int BIA = DI.BackItems[0].Amount+DI.BackItems[1].Amount;
-		int SIA = DI.SideItems[0].Amount+DI.SideItems[1].Amount;
+		int BIA = DI.BackItems[0].Amount+DI.BackItems[1].Amount+DI.BackItems[2].Amount+DI.BackItems[3].Amount;
+		int SIA = DI.SideItems[0].Amount+DI.SideItems[1].Amount+DI.SideItems[2].Amount+DI.SideItems[3].Amount;
 		
 		int BPIA = 0;
 		for (int i = 0; i < 10; ++i) {
