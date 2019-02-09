@@ -1,18 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.ImageEffects;
+using UnityEngine.Rendering.PostProcessing;
 
 public class Sun : MonoBehaviour {
 
 	public float TimeMultiplier = 1f;
 	public float Count;
 
-	public float SunDimTime = 0.001f;
-	float[] SunIntensity = {0.5f, 1f, 0.25f, 0f};
-
-	public DayPhase _dayPhase;
-
-	public enum DayPhase {Dawn, Day, Dusk, Night}
+	public float SunChangeSpeed = 0.01f;
+	PostProcessVolume PPV;
+	ColorGrading CG;
 
 	Light SunLight;
 	float GameSpeed;
@@ -21,14 +20,16 @@ public class Sun : MonoBehaviour {
 	
 
 	void Start () {
+		PPV = Camera.main.GetComponent<PostProcessVolume>();
 		SunLight = GetComponent <Light>();
-		_dayPhase = DayPhase.Dawn;
-		SunLight.intensity = SunIntensity[0];
 		GlobVars.Hour = 6;
 	}
 	
 
 	void Update () {
+		
+		PPV.profile.TryGetSettings(out CG);
+		
 		GameSpeed = Time.deltaTime * TimeMultiplier;
 		
 		if (GlobVars.Days > 365 || GlobVars.Days < 1) {
@@ -48,44 +49,42 @@ public class Sun : MonoBehaviour {
 		}
 		GlobVars.Mins = (int) Count;
 		transform.localEulerAngles = new Vector3 (-90, 0, 0);
-		transform.RotateAround(transform.position, GameObject.Find("SunAngler").transform.right, -0.25f * (Count + (GlobVars.Hour * 60)));
-
-		if (GlobVars.Hour >= GlobVars.SunChangeTime[0] && GlobVars.Hour < GlobVars.SunChangeTime[1]) { //Dawn
-			
-			_dayPhase = DayPhase.Dawn;
-			SunLight.intensity = Mathf.Lerp (SunLight.intensity, SunIntensity[0], SunDimTime * GameSpeed);
-
-		} else if (GlobVars.Hour >= GlobVars.SunChangeTime[1] && GlobVars.Hour < GlobVars.SunChangeTime[2]) { //Day
-			
-			_dayPhase = DayPhase.Day;
-			SunLight.intensity = Mathf.Lerp (SunLight.intensity, SunIntensity[1], SunDimTime * GameSpeed);
-
-		} else if (GlobVars.Hour >= GlobVars.SunChangeTime[2] && GlobVars.Hour < GlobVars.SunChangeTime[3]) { //Dusk
-			
-			_dayPhase = DayPhase.Dusk;
-			SunLight.intensity = Mathf.Lerp (SunLight.intensity, SunIntensity[2], SunDimTime * GameSpeed);
-
-		} else { //Night
-			
-			_dayPhase = DayPhase.Night;
-			SunLight.intensity = Mathf.Lerp (SunLight.intensity, SunIntensity[3], SunDimTime * GameSpeed);
+		
+		float Angle = -0.25f * (Count + (GlobVars.Hour * 60));
+		
+		transform.RotateAround(transform.position, GameObject.Find("SunAngler").transform.right, Angle);
+		if (GlobVars.Hour < 18 && GlobVars.Hour >= 6) {
+			CG.postExposure.value = Mathf.Lerp (CG.postExposure.value, 0, GameSpeed/10);
+			CG.temperature.value = Mathf.Abs(Mathf.Cos((Angle+90)*Mathf.Deg2Rad)*50);
+		} else {
+			CG.postExposure.value = Mathf.Lerp (CG.postExposure.value, -3, GameSpeed/10);
+			CG.temperature.value = -Mathf.Abs(Mathf.Cos((Angle)*Mathf.Deg2Rad)*50);
 		}
+		
+		GetComponent<Light>().color = new Color (1, ((-CG.temperature.value+50)/75)+0.25f, ((-CG.temperature.value+50)/50));
 	}
 
 	void OnGUI () {
-		GUI.Label (new Rect(Screen.width - 200, Screen.height - 150, 100, 20), "Day " + GlobVars.Days, style);
+		
+		string MinsText;
+		string HoursText;
+		
 		if (GlobVars.Mins < 10) {
-			if (GlobVars.Hour <= 12) {
-				GUI.Label (new Rect(Screen.width - 200, Screen.height - 100, 100, 20), GlobVars.Hour + ":" + 0 + GlobVars.Mins, style);
-			} else {
-				GUI.Label (new Rect(Screen.width - 200, Screen.height - 100, 100, 20), (GlobVars.Hour-12) + ":" + 0 + GlobVars.Mins, style);
-			}
+			MinsText = "0";
 		} else {
-			if (GlobVars.Hour <= 12) {
-				GUI.Label (new Rect(Screen.width - 200, Screen.height - 100, 100, 20), GlobVars.Hour + ":" + GlobVars.Mins, style);
-			} else {
-				GUI.Label (new Rect(Screen.width - 200, Screen.height - 100, 100, 20), (GlobVars.Hour-12) + ":" + GlobVars.Mins, style);
-			}
+			MinsText = "";
 		}
+		
+		MinsText += "" + (Mathf.RoundToInt(GlobVars.Mins / 5) * 5);
+		
+		if (GlobVars.Hour > 12) {
+			HoursText = "" + (GlobVars.Hour - 12) + ":" + MinsText + "pm";
+		} else {
+			HoursText = "" + GlobVars.Hour + ":" + MinsText + "am";
+		}
+		
+		GUI.Label (new Rect(Screen.width - 200, Screen.height - 150, 100, 20), "Day " + GlobVars.Days, style);
+		
+		GUI.Label (new Rect(Screen.width - 200, Screen.height - 100, 100, 20), HoursText, style);
 	}
 }
