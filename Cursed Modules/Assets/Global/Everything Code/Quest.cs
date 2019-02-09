@@ -34,12 +34,12 @@ public class Quest : MonoBehaviour {
 			}
 		}
 		if (CanGive) {
+			if (AS != null)
 			AS.Play();
 			Array.Resize (ref GlobVars.Quests, GlobVars.Quests.Length + 1);
 			GlobVars.Quests[GlobVars.Quests.Length - 1] = QuestName;
-			GameObject.Find(Anim.gameObject.name+"/AnimImage/GetOrNot").GetComponent<Text>().text = "New Quest\n";
-			GameObject.Find(Anim.gameObject.name+"/AnimImage/QName").GetComponent<Text>().text = QuestName;
-			Anim.Play("Show");
+			Anim.gameObject.GetComponentInChildren<Text>().text = "New Quest\n" + QuestName;
+			Anim.Play("Quest");
 		}
 	}
 	
@@ -51,12 +51,12 @@ public class Quest : MonoBehaviour {
 			}
 		}
 		if (CanGive) {
+			if (AS != null)
 			AS.Play();
 			Array.Resize (ref GlobVars.DoneQuests, GlobVars.DoneQuests.Length + 1);
 			GlobVars.DoneQuests[GlobVars.DoneQuests.Length - 1] = QuestName;
-			GameObject.Find(Anim.gameObject.name+"/AnimImage/GetOrNot").GetComponent<Text>().text = "Quest Complete\n";
-			GameObject.Find(Anim.gameObject.name+"/AnimImage/QName").GetComponent<Text>().text = QuestName;
-			Anim.Play("Show");
+			Anim.gameObject.GetComponentInChildren<Text>().text = "Quest Complete\n" + QuestName;
+			Anim.Play("Quest");
 		}
 	}
 }
