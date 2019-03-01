@@ -25,7 +25,7 @@ public class Health : MonoBehaviour {
 	void Update () {
 		
 		//SetUp Armor
-		for (int i = 0; i < 3; ++i) {
+		for (int i = 0; i < 3; i++) {
 			foreach (ItemObject IO in GetComponentsInChildren<ItemObject>()) {
 				if (IO.AssociatedItem.Type == ArmorTypes[i] + "Armor") {
 					ArmorObject[i] = IO;
@@ -66,7 +66,7 @@ public class Health : MonoBehaviour {
 
 			Graphics[0].fillAmount = (-(Wound/10))+1;
 			
-			for (int i = 0; i < 3; ++i) {
+			for (int i = 0; i < 3; i++) {
 				if (ArmorObject[i] != null) {
 				Graphics[i+1].fillAmount = ArmorObject[i].ProgNum/ArmorObject[i].AssociatedItem.ProgNum;
 				} else {

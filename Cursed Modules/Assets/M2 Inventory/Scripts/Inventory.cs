@@ -25,32 +25,32 @@ public class Inventory : MonoBehaviour {
 	
 	void Update () {
 		
-		for (int i = 0; i < BackItems.Length; ++i) {
+		for (int i = 0; i < BackItems.Length; i++) {
 			BackItems[i].item = null;
 			BackItems[i].Amount = 0;
 		}
 		
-		for (int i = 0; i < SideItems.Length; ++i) {
+		for (int i = 0; i < SideItems.Length; i++) {
 			SideItems[i].item = null;
 			SideItems[i].Amount = 0;
 		}
 		
-		for (int i = 0; i < BackpackItems.Length; ++i) {
+		for (int i = 0; i < BackpackItems.Length; i++) {
 			BackpackItems[i].item = null;
 			BackpackItems[i].Amount = 0;
 		}
 		
-		for (int i = 0; i < ArmorL.Length; ++i) {
+		for (int i = 0; i < ArmorL.Length; i++) {
 			ArmorL[i].item = null;
 			ArmorL[i].Amount = 0;
 		}
 		
-		for (int i = 0; i < ArmorC.Length; ++i) {
+		for (int i = 0; i < ArmorC.Length; i++) {
 			ArmorC[i].item = null;
 			ArmorC[i].Amount = 0;
 		}
 		
-		for (int i = 0; i < ArmorM.Length; ++i) {
+		for (int i = 0; i < ArmorM.Length; i++) {
 			ArmorM[i].item = null;
 			ArmorM[i].Amount = 0;
 		}
@@ -159,10 +159,28 @@ public class Inventory : MonoBehaviour {
 	
 	void Insert (anItem It) {
 		if (It.item != null) {
-			for (int i = 0; i < It.Amount; ++i) {
+			for (int i = 0; i < It.Amount; i++) {
 				Items.Insert(z, It.item);
 				++z;
 			}
 		}
+	}
+	
+	public void RemoveItem (string ItemName) {
+		for (int i = 0; i < Items.Count; i++) {
+			if (Items[i].name == ItemName) {
+				Items.RemoveAt(i);
+				break;
+			}
+		}
+	}
+	
+	public bool TestForItem (string ItemName) {
+		for (int i = 0; i < Items.Count; i++) {
+			if (Items[i].name == ItemName) {
+				return (true);
+			}
+		}
+		return (false);
 	}
 }
