@@ -17,7 +17,6 @@ public class CamControl : MonoBehaviour {
 		if (!GlobVars.Paused) {
 			transform.position = ObjToFollow.position;
 			transform.eulerAngles = new Vector3 (0, transform.eulerAngles.y, 0);
-			ObjToFollow.eulerAngles = transform.eulerAngles;
 			transform.Rotate (0, SSInput.RHor[0]*100*Time.deltaTime, 0);
 			transform.Translate (0, Up, -Back);
 			transform.eulerAngles = new Vector3 (0, transform.eulerAngles.y, 0);
