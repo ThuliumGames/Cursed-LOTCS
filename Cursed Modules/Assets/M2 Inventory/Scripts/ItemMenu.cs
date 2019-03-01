@@ -84,7 +84,7 @@ public class ItemMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 		int SIA = DI.SideItems[0].Amount+DI.SideItems[1].Amount+DI.SideItems[2].Amount+DI.SideItems[3].Amount;
 		
 		int BPIA = 0;
-		for (int i = 0; i < 10; ++i) {
+		for (int i = 0; i < 10; i++) {
 			BPIA += DI.BackpackItems[i].Amount;
 		}
 		
@@ -95,7 +95,7 @@ public class ItemMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 			if (DI.BackItems[Slot].item != null) {
 				InvenNum = 0;
 				
-				for (int i = 0; i < Slot; ++i) {
+				for (int i = 0; i < Slot; i++) {
 					InvenNum += DI.BackItems[i].Amount;
 				}
 				
@@ -113,7 +113,7 @@ public class ItemMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 			if (DI.SideItems[Slot].item != null) {
 				InvenNum = BIA;
 				
-				for (int i = 0; i < Slot; ++i) {
+				for (int i = 0; i < Slot; i++) {
 					InvenNum += DI.SideItems[i].Amount;
 				}
 				int a = 0;
@@ -129,7 +129,7 @@ public class ItemMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 			if (DI.BackpackItems[Slot].item != null) {
 				InvenNum = BIA+SIA;
 				
-				for (int i = 0; i < Slot; ++i) {
+				for (int i = 0; i < Slot; i++) {
 					InvenNum += DI.BackpackItems[i].Amount;
 				}
 				int a = 0;

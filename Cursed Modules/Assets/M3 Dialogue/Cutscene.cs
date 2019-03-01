@@ -3,74 +3,55 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Animations;
+using UnityEngine.SceneManagement;
 
-[System.Serializable]
-public class Objects {
-	public Animator ObjectToMove;
-	public RuntimeAnimatorController NewAnimCon;
-	public bool RMToggle;
-	[HideInInspector]
-	public RuntimeAnimatorController OrigAnimCon;
-	[HideInInspector]
-	public bool RMWasOn;
-	[HideInInspector]
-	public Vector3 PrevPos;
-}
 public class Cutscene : MonoBehaviour {
 	
-	bool isCut;
+	bool isCut = false;
 	
-	public Objects[] ObjectsToMove;
-	public Camera CutCam;
+	public string CutSceneName;
+	string OrigSceneName;
 	public float CutsceneLength;
+	public Vector3 ReturnLocation;
 	
 	float T = 0;
 	
 	void Update () {
-		if (isCut) {
-			T += Time.deltaTime;
-			GlobVars.Reading = true;
-			CutCam.depth = 10;
-		}
 		
-		if (T >= CutsceneLength) {
-			isCut = false;
-			T = 0;
-			foreach (Objects O in ObjectsToMove) {
-				O.PrevPos = O.ObjectToMove.transform.position;
-				O.ObjectToMove.runtimeAnimatorController = O.OrigAnimCon;
-				if (O.RMWasOn) {
-					O.ObjectToMove.applyRootMotion = true;
-				} else {
-					O.ObjectToMove.applyRootMotion = false;
+		if (isCut) {
+			
+			T += Time.deltaTime;
+					
+			if (T > CutsceneLength) {
+				isCut = false;
+				if (CutsceneLength > 0) {
+					SceneManager.LoadScene(OrigSceneName);
 				}
-				O.ObjectToMove.transform.position = O.PrevPos;
 			}
-			GlobVars.Reading = false;
-			CutCam.depth = -100;
-			GlobVars.Interacting = false;
-			GlobVars.InteractObject = null;
-			Destroy(this.gameObject);
+			
+		} else {
+			if ((T > CutsceneLength && SceneManager.GetActiveScene().name == OrigSceneName) || (CutsceneLength == 0 && SceneManager.GetActiveScene().name == CutSceneName)) {
+				GameObject.Find("Player").transform.position = ReturnLocation;
+				Destroy(this.gameObject);
+			}
 		}
+	}
+	
+	void LateUpdate () {
+		OrigSceneName = SceneManager.GetActiveScene().name;
 	}
 	
 	void DoCut () {
-		isCut = true;
-		foreach (Objects O in ObjectsToMove) {
-		
-			if (O.ObjectToMove.applyRootMotion) {
-				O.RMWasOn = true;
-			} else {
-				O.RMWasOn = false;
+		if (SceneManager.GetActiveScene().name == OrigSceneName) {
+			if ((GameObject.Find (name + "CutKeep") == null && !name.Contains("CutKeep"))) {
+				name += "CutKeep";
+				isCut = true;
+				T = 0;
+				Application.DontDestroyOnLoad(this.gameObject);
+				SceneManager.LoadScene(CutSceneName);
+			} else if (!name.Contains("CutKeep")) {
+				Destroy(this.gameObject);
 			}
-			
-			if (O.RMToggle) {
-				O.ObjectToMove.applyRootMotion = !O.ObjectToMove.applyRootMotion;
-			}
-			
-			O.OrigAnimCon = O.ObjectToMove.runtimeAnimatorController;
-			O.ObjectToMove.runtimeAnimatorController = O.NewAnimCon;
 		}
 	}
-	
 }
