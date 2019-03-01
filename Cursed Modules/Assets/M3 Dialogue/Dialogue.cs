@@ -8,7 +8,12 @@ using UnityEngine.UI;
 public class CostomCode {
 	public MonoBehaviour component;
 	public string Command;
-	public string QuestName;
+	[Header("Only 1")]
+	public string[] StringInput;
+	public bool[] BoolInput;
+	public int[] IntInput;
+	public float[] FloatInput;
+	
 }
 
 [System.Serializable]
@@ -20,6 +25,9 @@ public class CostomCode {
 	public string AnsText;
 	public int[] NextAnsText;
 	public float TimedEnd;
+	[Header("Test For Item In Inventory")]
+	public bool FoundItem;
+	public int NextTextIfTrue;
 	[Header("To Modify Another Dialogue System")]
 	public Dialogue ModOther;
 	public int OtherNextText;
@@ -98,7 +106,16 @@ public class Dialogue : MonoBehaviour {
 									Exe (DialogueVariables[TextToRead].CodeToExecute.Length-1);
 									WaitForInput = false;
 								}
-								TextToRead = DialogueVariables[TextToRead].NextText;
+								if (DialogueVariables[TextToRead].CodeToExecute.Length > 0) {
+									if (DialogueVariables[TextToRead].CodeToExecute[0].Command == "TestForItem" && DialogueVariables[TextToRead].FoundItem) {
+										GameObject.FindObjectOfType<Inventory>().RemoveItem(DialogueVariables[TextToRead].CodeToExecute[0].StringInput[0]);
+										TextToRead = DialogueVariables[TextToRead].NextTextIfTrue;
+									} else {
+										TextToRead = DialogueVariables[TextToRead].NextText;
+									}
+								} else {
+									TextToRead = DialogueVariables[TextToRead].NextText;
+								}
 								DialogueCanvas.gameObject.SetActive(false);
 								Writing = false;
 								StopInteract = true;
@@ -201,7 +218,16 @@ public class Dialogue : MonoBehaviour {
 				yield return new WaitForSeconds (DialogueVariables[TextToRead].TimedEnd);
 				DoneReading = false;
 				DoneTalking = false;
-				TextToRead = DialogueVariables[TextToRead].NextText;
+				if (DialogueVariables[TextToRead].CodeToExecute.Length > 0) {
+					if (DialogueVariables[TextToRead].CodeToExecute[0].Command == "TestForItem" && DialogueVariables[TextToRead].FoundItem) {
+						GameObject.FindObjectOfType<Inventory>().RemoveItem(DialogueVariables[TextToRead].CodeToExecute[0].StringInput[0]);
+						TextToRead = DialogueVariables[TextToRead].NextTextIfTrue;
+					} else {
+						TextToRead = DialogueVariables[TextToRead].NextText;
+					}
+				} else {
+					TextToRead = DialogueVariables[TextToRead].NextText;
+				}
 				StartCoroutine(Write ());
 				Writing = true;
 			} else {
@@ -307,12 +333,20 @@ public class Dialogue : MonoBehaviour {
 		}
 	}
 	void Exe (int Num) {
-		if (DialogueVariables[TextToRead].CodeToExecute[Num].Command == "GiveQuest") {
-			GameObject.FindObjectOfType<Quest>().GiveQuest(DialogueVariables[TextToRead].CodeToExecute[Num].QuestName);
-		} else if (DialogueVariables[TextToRead].CodeToExecute[Num].Command == "CompleteQuest") {
-			GameObject.FindObjectOfType<Quest>().CompleteQuest(DialogueVariables[TextToRead].CodeToExecute[Num].QuestName);
+		if (DialogueVariables[TextToRead].CodeToExecute[Num].Command == "TestForItem") {
+			DialogueVariables[TextToRead].FoundItem = GameObject.FindObjectOfType<Inventory>().TestForItem(DialogueVariables[TextToRead].CodeToExecute[Num].StringInput[0]);
 		} else {
-			DialogueVariables[TextToRead].CodeToExecute[Num].component.StartCoroutine(DialogueVariables[TextToRead].CodeToExecute[Num].Command);
+			if (DialogueVariables[TextToRead].CodeToExecute[Num].StringInput.Length != 0) {
+				DialogueVariables[TextToRead].CodeToExecute[Num].component.StartCoroutine(DialogueVariables[TextToRead].CodeToExecute[Num].Command, DialogueVariables[TextToRead].CodeToExecute[Num].StringInput[0]);
+			} else if (DialogueVariables[TextToRead].CodeToExecute[Num].BoolInput.Length != 0) {
+				DialogueVariables[TextToRead].CodeToExecute[Num].component.StartCoroutine(DialogueVariables[TextToRead].CodeToExecute[Num].Command, DialogueVariables[TextToRead].CodeToExecute[Num].BoolInput[0]);
+			} else if (DialogueVariables[TextToRead].CodeToExecute[Num].IntInput.Length != 0) {
+				DialogueVariables[TextToRead].CodeToExecute[Num].component.StartCoroutine(DialogueVariables[TextToRead].CodeToExecute[Num].Command, DialogueVariables[TextToRead].CodeToExecute[Num].IntInput[0]);
+			} else if (DialogueVariables[TextToRead].CodeToExecute[Num].FloatInput.Length != 0) {
+				DialogueVariables[TextToRead].CodeToExecute[Num].component.StartCoroutine(DialogueVariables[TextToRead].CodeToExecute[Num].Command, DialogueVariables[TextToRead].CodeToExecute[Num].FloatInput[0]);
+			} else {
+				DialogueVariables[TextToRead].CodeToExecute[Num].component.StartCoroutine(DialogueVariables[TextToRead].CodeToExecute[Num].Command);
+			}
 		}
 	}
 	

@@ -33,6 +33,11 @@ public class Quest : MonoBehaviour {
 				CanGive = false;
 			}
 		}
+		foreach (string S in GlobVars.DoneQuests) {
+			if (QuestName == S) {
+				CanGive = false;
+			}
+		}
 		if (CanGive) {
 			if (AS != null)
 			AS.Play();

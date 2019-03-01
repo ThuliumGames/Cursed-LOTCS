@@ -33,7 +33,7 @@ public class SSInput : MonoBehaviour {
 
 		AnythingPressed = false;
 	
-		for (int i = 0; i < 4; ++i) {
+		for (int i = 0; i < 4; i++) {
 			
 			PlayerIndex Index = (PlayerIndex)i;
 			
