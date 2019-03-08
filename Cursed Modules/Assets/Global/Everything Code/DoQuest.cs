@@ -10,7 +10,7 @@ public class DoQuest : MonoBehaviour {
 	public string QuestName;
 	
 	void QuestDo () {
-		GlobVars.Interacting = false;
+		Interactables.StopI();
 		if (QuestGive) {
 			GameObject.FindObjectOfType<Quest>().GiveQuest(QuestName);
 		} else {

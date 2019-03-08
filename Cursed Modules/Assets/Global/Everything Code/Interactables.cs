@@ -47,4 +47,9 @@ public class Interactables : MonoBehaviour {
 			}
 		}
 	}
+	
+	public static void StopI () {
+		GlobVars.InteractObject = null;
+		GlobVars.Interacting = false;
+	}
 }
