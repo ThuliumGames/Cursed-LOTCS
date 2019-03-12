@@ -1366,6 +1366,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1340892495012620
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4423634496136450}
+  m_Layer: 0
+  m_Name: Sky System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1341193480367686
 GameObject:
   m_ObjectHideFlags: 1
@@ -1760,7 +1775,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1428474892809620
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
@@ -4394,8 +4409,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4665296284933962}
-  m_Father: {fileID: 4493718021650862}
-  m_RootOrder: 2
+  m_Father: {fileID: 4423634496136450}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: -15}
 --- !u!4 &4320043282743448
 Transform:
@@ -4509,6 +4524,20 @@ Transform:
   - {fileID: 4707268844071394}
   m_Father: {fileID: 4266965928986676}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4423634496136450
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1340892495012620}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4301590460667390}
+  m_Father: {fileID: 4493718021650862}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4443527646645716
 Transform:
@@ -4643,7 +4672,7 @@ Transform:
   m_Children:
   - {fileID: 4708184972382942}
   - {fileID: 4296124566912672}
-  - {fileID: 4301590460667390}
+  - {fileID: 4423634496136450}
   - {fileID: 4754463076341522}
   - {fileID: 224439842998090642}
   - {fileID: 224044510789570434}
