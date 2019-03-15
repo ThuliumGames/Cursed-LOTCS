@@ -151,6 +151,7 @@ GameObject:
   m_Component:
   - component: {fileID: 103337076}
   - component: {fileID: 103337077}
+  - component: {fileID: 103337078}
   m_Layer: 0
   m_Name: Sun Zones
   m_TagString: Untagged
@@ -177,30 +178,73 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 103337075}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 472db2140eeb5fc40a7e30ef423c9e78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   WeatherTypes:
   - WeatherType: Clear
-    Probability: 0
+    Probability: 26
   - WeatherType: Cloud
-    Probability: 0
+    Probability: 24
   - WeatherType: Fog
-    Probability: 0
+    Probability: 11
   - WeatherType: Rain
-    Probability: 0
+    Probability: 16
   - WeatherType: Storm
-    Probability: 0
+    Probability: 14
   - WeatherType: Thunder
-    Probability: 0
+    Probability: 9
   - WeatherType: Snow
     Probability: 0
   - WeatherType: Blizzard
     Probability: 0
   ZoneSize: {x: 10, y: 0, z: 10}
   Player: {fileID: 1101983399}
+--- !u!114 &103337078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 103337075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3040680efcebd9942be2c976b193dcb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 1101983399}
+  WeatherZones:
+  - Size: 1
+    Pos: {x: 0, y: 0, z: 0}
+    ZoneTempRange: {x: 0, y: 0}
+    ZoneCloudRange: {x: 0, y: 0}
+    LockWeatherType: 0
+    LockWeatherTo: 0
+  - Size: 5
+    Pos: {x: 0, y: 0, z: 0}
+    ZoneTempRange: {x: 0, y: 0}
+    ZoneCloudRange: {x: 0, y: 0}
+    LockWeatherType: 0
+    LockWeatherTo: 0
+  - Size: 3
+    Pos: {x: 0, y: 0, z: 0}
+    ZoneTempRange: {x: 0, y: 0}
+    ZoneCloudRange: {x: 0, y: 0}
+    LockWeatherType: 0
+    LockWeatherTo: 0
+  - Size: 0
+    Pos: {x: 0, y: 0, z: 0}
+    ZoneTempRange: {x: 0, y: 0}
+    ZoneCloudRange: {x: 0, y: 0}
+    LockWeatherType: 0
+    LockWeatherTo: 0
+  - Size: 0
+    Pos: {x: 0, y: 0, z: 0}
+    ZoneTempRange: {x: 0, y: 0}
+    ZoneCloudRange: {x: 0, y: 0}
+    LockWeatherType: 0
+    LockWeatherTo: 0
 --- !u!108 &170076734 stripped
 Light:
   m_CorrespondingSourceObject: {fileID: 108393147763273460, guid: 31ca858f627bebd4598acfbfbbd61f18,
@@ -1286,6 +1330,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4493718021650862, guid: 31ca858f627bebd4598acfbfbbd61f18, type: 2}
       propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4924543277067638, guid: 31ca858f627bebd4598acfbfbbd61f18, type: 2}
+      propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
