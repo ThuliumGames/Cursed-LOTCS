@@ -80,7 +80,7 @@ public class Dialogue : MonoBehaviour {
 		
 		if (StopInteract) {
 			StopInteract = false;
-			GlobVars.Interacting = false;
+			Interactables.StopI();
 		}
 		
 		if (isMoving) {
@@ -119,7 +119,6 @@ public class Dialogue : MonoBehaviour {
 								DialogueCanvas.gameObject.SetActive(false);
 								Writing = false;
 								StopInteract = true;
-								GlobVars.InteractObject = null;
 								GlobVars.Reading = false;
 								GoToNext.SetActive(false);
 								isMoving = false;
