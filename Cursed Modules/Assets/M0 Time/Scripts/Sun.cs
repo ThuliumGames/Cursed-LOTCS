@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityStandardAssets.ImageEffects;
 using UnityEngine.Rendering.PostProcessing;
 
 public class Sun : MonoBehaviour {

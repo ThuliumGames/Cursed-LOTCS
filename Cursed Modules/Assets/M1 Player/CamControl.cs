@@ -5,7 +5,7 @@ using UnityEngine;
 public class CamControl : MonoBehaviour {
 	
 	public Transform ObjToFollow;
-	float UpDown;
+	float UpDown = 0;
 	public float Max;
 	public float Min;
 	public float Back;
@@ -13,7 +13,7 @@ public class CamControl : MonoBehaviour {
 	
 	public LayerMask LM;
 	
-	void Update () {
+	void LateUpdate () {
 		if (!GlobVars.Paused) {
 			transform.position = ObjToFollow.position;
 			transform.eulerAngles = new Vector3 (0, transform.eulerAngles.y, 0);
