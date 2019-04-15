@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class Weapon : ItemObject {
 	
-	public GameObject InHandObject;
-	public GameObject OnBackObject;
+	public Vector3 InHandPosition;
+	public Vector3 InHandRotation;
 	
-	void Update () {
-		
+	public AnimatorOverrideController AOC;
+	
+	float T = 0;
+	
+	void LateUpdate () {
+		GetComponentInParent<Animator>().runtimeAnimatorController = AOC;
 	}
 }

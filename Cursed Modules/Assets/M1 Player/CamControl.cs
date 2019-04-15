@@ -11,13 +11,22 @@ public class CamControl : MonoBehaviour {
 	public float Back;
 	public float Up;
 	
+	public float FollowSpeed;
+	
 	public LayerMask LM;
 	
+	float Ac;
+	
+	Vector3 Pre;
+	
 	void LateUpdate () {
+		
 		if (!GlobVars.Paused) {
-			transform.position = ObjToFollow.position;
+			GameObject G = new GameObject();
+			G.transform.position = Vector3.Lerp (Pre, ObjToFollow.position, FollowSpeed*Time.deltaTime);
+			transform.position = G.transform.position;
 			transform.eulerAngles = new Vector3 (0, transform.eulerAngles.y, 0);
-			transform.Rotate (0, SSInput.RHor[0]*100*Time.deltaTime, 0);
+			transform.Rotate (0, ((SSInput.RHor[0]*100))*Time.deltaTime, 0);
 			transform.Translate (0, Up, -Back);
 			transform.eulerAngles = new Vector3 (0, transform.eulerAngles.y, 0);
 			UpDown += -SSInput.RVert[0]*100*Time.deltaTime;
@@ -28,6 +37,9 @@ public class CamControl : MonoBehaviour {
 				transform.Translate (0, 0, Back-Hit.distance+0.5f);
 			}
 			transform.Rotate (10, 0, 0);
+			Pre = G.transform.position;
+			Destroy(G);
 		}
+		
 	}
 }

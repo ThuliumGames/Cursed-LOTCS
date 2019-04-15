@@ -15,9 +15,9 @@ public class ItemQuickSelect : MonoBehaviour {
 	public Text ShiText;
 	public Text SpeText;
 	
-	int WantedSword = 1;
-	int WantedShield = 1;
-	int WantedSpecial = 1;
+	int WantedSword = 0;
+	int WantedShield = 0;
+	int WantedSpecial = 0;
 	
 	int SwordIm = 0;
 	int ShieldIm = 0;
@@ -63,21 +63,24 @@ public class ItemQuickSelect : MonoBehaviour {
 		if (TotSwords == 0) {
 			Sword.GetComponentInChildren<Image>().color = Color.clear;
 			Sword.GetComponentInChildren<Text>().text = "";
-			SwoText.text = "";
+			SwoText.text = "Fist";
+			GlobVars.EquippedWeapon = null;
 		} else {
 			Sword.GetComponentInChildren<Image>().color = Color.white;
 		}
 		if (TotShields == 0) {
 			Shield.GetComponentInChildren<Image>().color = Color.clear;
 			Shield.GetComponentInChildren<Text>().text = "";
-			ShiText.text = "";
+			ShiText.text = "None";
+			GlobVars.EquippedShield = null;
 		} else {
 			Shield.GetComponentInChildren<Image>().color = Color.white;
 		}
 		if (TotSpecials == 0) {
 			Special.GetComponentInChildren<Image>().color = Color.clear;
 			Special.GetComponentInChildren<Text>().text = "";
-			SpeText.text = "";
+			SpeText.text = "Fist";
+			GlobVars.EquippedSpecial = null;
 		} else {
 			Special.GetComponentInChildren<Image>().color = Color.white;
 		}
@@ -114,21 +117,21 @@ public class ItemQuickSelect : MonoBehaviour {
 					DPad.sprite = AltSprites[1];
 					++WantedSpecial;
 					if (WantedSpecial > TotSpecials) {
-						WantedSpecial = 1;
+						WantedSpecial = 0;
 					}
 				}
 				if (SSInput.DLeft[0] == "Pressed") {
 					DPad.sprite = AltSprites[2];
 					++WantedShield;
 					if (WantedShield > TotShields) {
-						WantedShield = 1;
+						WantedShield = 0;
 					}
 				}
 				if (SSInput.DRight[0] == "Pressed") {
 					DPad.sprite = AltSprites[3];
 					++WantedSword;
 					if (WantedSword > TotSwords) {
-						WantedSword = 1;
+						WantedSword = 0;
 					}
 				}
 				
@@ -144,32 +147,63 @@ public class ItemQuickSelect : MonoBehaviour {
 		} else {
 			QSC.enabled = false;
 		}
+		
+		if (WantedSword == 0) {
+			GlobVars.EquippedWeapon = null;
+			Sword.GetComponentInChildren<Image>().color = Color.clear;
+			Sword.GetComponentInChildren<Text>().text = "";
+			SwoText.text = "Fist";
+		}
+		
+		if (WantedShield == 0) {
+			GlobVars.EquippedShield = null;
+			Shield.GetComponentInChildren<Image>().color = Color.clear;
+			Shield.GetComponentInChildren<Text>().text = "";
+			ShiText.text = "None";
+		}
+		
+		if (WantedSpecial == 0) {
+			GlobVars.EquippedSpecial = null;
+			Special.GetComponentInChildren<Image>().color = Color.clear;
+			Special.GetComponentInChildren<Text>().text = "";
+			SpeText.text = "Fist";
+		}
+		
 	}
 	
 	void Compare (anItem I) {
 		if (I.item != null) {
 			if (I.item.Type == "Sword") {
 				++SwordIm;
-				if (SwordIm == WantedSword) {
-					Sword.GetComponentInChildren<Image>().sprite = I.item.sprite;
-					Sword.GetComponentInChildren<Text>().text = ""+I.Amount;
-					SwoText.text = I.item.name;
+				if (WantedSword != 0) {
+					if (SwordIm == WantedSword) {
+						Sword.GetComponentInChildren<Image>().sprite = I.item.sprite;
+						Sword.GetComponentInChildren<Text>().text = ""+I.Amount;
+						SwoText.text = I.item.name;
+						GlobVars.EquippedWeapon = I.item;
+					}
 				}
 			}
 			if (I.item.Type == "Shield") {
 				++ShieldIm;
-				if (ShieldIm == WantedShield) {
-					Shield.GetComponentInChildren<Image>().sprite = I.item.sprite;
-					Shield.GetComponentInChildren<Text>().text = ""+I.Amount;
-					ShiText.text = I.item.name;
+				if (WantedShield != 0) {
+					if (ShieldIm == WantedShield) {
+						Shield.GetComponentInChildren<Image>().sprite = I.item.sprite;
+						Shield.GetComponentInChildren<Text>().text = ""+I.Amount;
+						ShiText.text = I.item.name;
+						GlobVars.EquippedShield = I.item;
+					}
 				}
 			}
 			if (I.item.Type == "Special") {
 				++SpecialIm;
-				if (SpecialIm == WantedSpecial) {
-					Special.GetComponentInChildren<Image>().sprite = I.item.sprite;
-					Special.GetComponentInChildren<Text>().text = ""+I.Amount;
-					SpeText.text = I.item.name;
+				if (WantedSpecial != 0) {
+					if (SpecialIm == WantedSpecial) {
+						Special.GetComponentInChildren<Image>().sprite = I.item.sprite;
+						Special.GetComponentInChildren<Text>().text = ""+I.Amount;
+						SpeText.text = I.item.name;
+						GlobVars.EquippedSpecial = I.item;
+					}
 				}
 			}
 		}
