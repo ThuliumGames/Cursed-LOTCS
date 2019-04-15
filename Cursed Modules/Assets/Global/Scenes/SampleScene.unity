@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.2862357, g: 0.20991886, b: 0.10647748, a: 1}
+  m_IndirectSpecularColor: {r: 0.28624076, g: 0.20992279, b: 0.106479794, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1312,8 +1312,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca159c29c429f0d46b29401780888ab9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Speeds:
+  - -5
+  - 0
+  - 5
+  - 10
+  - 20
+  TurnSpeed: 3
   Offset: {x: 0, y: 2, z: 0}
   Riding: 0
+  PlayerMass: 0
 --- !u!114 &1019591478
 MonoBehaviour:
   m_ObjectHideFlags: 0
