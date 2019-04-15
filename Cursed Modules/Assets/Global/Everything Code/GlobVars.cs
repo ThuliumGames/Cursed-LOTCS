@@ -19,8 +19,11 @@ public class GlobVars : MonoBehaviour {
 	public static bool NearInteractable;
 	public static string InteractText;
 	//Time
-	public static int Days = 1;
+	public static int Days = 0;
 	public static int Hour;
 	public static int Mins;
-	public static int[] SunChangeTime = {6, 8, 18, 20};
+	
+	public static Item EquippedWeapon;
+	public static Item EquippedSpecial;
+	public static Item EquippedShield;
 }
