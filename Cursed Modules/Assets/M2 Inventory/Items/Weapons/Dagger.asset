@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5dbc34731d32e3499625e6d07c4c4b1, type: 3}
   m_Name: Dagger
   m_EditorClassIdentifier: 
-  Type: Special
+  Type: Sword
   ProgNum: 5
   CanBeEquipedIn: 00010100
   Model: {fileID: 1667266515823362, guid: 8ca136d654a0d2644869ce3a8c29f158, type: 2}

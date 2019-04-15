@@ -31,9 +31,8 @@ public class Sun : MonoBehaviour {
 		
 		GameSpeed = Time.deltaTime * TimeMultiplier;
 		
-		if (GlobVars.Days > 365 || GlobVars.Days < 1) {
-			GlobVars.Days = 1;
-		}
+		GlobVars.Days %= 365;
+		GameObject.Find("SunAngler").transform.eulerAngles = new Vector3 (0, 90, -15-((Mathf.Sin((-GlobVars.Days+360)*Mathf.Deg2Rad)+1)*23));
 
 		if (!GlobVars.Paused) {
 			Count += GameSpeed;
@@ -60,7 +59,7 @@ public class Sun : MonoBehaviour {
 			CG.temperature.value = -Mathf.Abs(Mathf.Cos((Angle)*Mathf.Deg2Rad)*50);
 		}
 		
-		GetComponent<Light>().color = new Color (1, ((-CG.temperature.value+50)/75)+0.25f, ((-CG.temperature.value+50)/50));
+		GetComponent<Light>().color = new Color (1, ((-CG.temperature.value+50)/75)+0.25f, 0/*((-CG.temperature.value+50)/50)*/);
 	}
 
 	void OnGUI () {
@@ -82,7 +81,7 @@ public class Sun : MonoBehaviour {
 			HoursText = "" + GlobVars.Hour + ":" + MinsText + "am";
 		}
 		
-		GUI.Label (new Rect(Screen.width - 200, Screen.height - 150, 100, 20), "Day " + GlobVars.Days, style);
+		GUI.Label (new Rect(Screen.width - 200, Screen.height - 150, 100, 20), "Day " + (GlobVars.Days+1), style);
 		
 		GUI.Label (new Rect(Screen.width - 200, Screen.height - 100, 100, 20), HoursText, style);
 	}
