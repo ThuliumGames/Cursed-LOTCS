@@ -34,12 +34,14 @@ public class Movement : MonoBehaviour {
 	
 	void Update () {
 		
+		//Reset Attack Anim
 		if (!GetComponentInChildren<Weapon>()) {
 			GetComponentInParent<Animator>().runtimeAnimatorController = AOC;
 		}
 		
 		if (!GlobVars.Paused) {
 			
+			//Maintain Velocity When Paused
 			Pos = transform.position;
 			GetComponent<Rigidbody>().isKinematic = false;
 			if (WasPaused) {
@@ -49,30 +51,45 @@ public class Movement : MonoBehaviour {
 			
 			if (!GlobVars.PlayerPaused && !GlobVars.Reading) {
 				
+				//Attack
 				if (SSInput.X[0] == "Pressed") {
 					Anim.SetBool("Attacking", true);
 				}
 				
 				if (Anim.GetBool("OnGround") && !Anim.GetBool("Attacking")) {
 					
+					//Jumping
 					if (SSInput.Y[0] == "Pressed" && Stamina > minStamina) {
+						
+						//Fall When Jump
+						GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+						
 						Stamina -= 0.5f;
 						transform.position += new Vector3 (0, 1f, 0);
 						transform.rotation = Q;
 						GetComponent<Rigidbody>().velocity = new Vector3 (GetComponent<Rigidbody>().velocity.x, JumpPower, GetComponent<Rigidbody>().velocity.z);
 					} else if (SSInput.Y[0] == "Pressed") {
+						
+						//Fall When Jump
+						GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+						
+						//Jump Less If Out Of Stamina
 						transform.position += new Vector3 (0, 1f, 0);
 						transform.rotation = Q;
 						GetComponent<Rigidbody>().velocity = new Vector3 (GetComponent<Rigidbody>().velocity.x/2, JumpPower/2, GetComponent<Rigidbody>().velocity.z/2);
 					}
 					
+					//Sprinting
 					if (SSInput.B[0] == "Down" && Stamina > minStamina) {
 						Stamina -= Time.deltaTime*(int)(Anim.GetFloat("VSpeed")+0.25f);
 						Anim.SetFloat("VSpeed", Mathf.Lerp (Anim.GetFloat("VSpeed"), new Vector2 (SSInput.LHor[0], SSInput.LVert[0]).magnitude, Acceleration * Time.deltaTime));
 					} else {
+						//Dont Sprint If Out Of Stamina
 						Stamina += Time.deltaTime;
 						Anim.SetFloat("VSpeed", Mathf.Lerp (Anim.GetFloat("VSpeed"), new Vector2 (SSInput.LHor[0], SSInput.LVert[0]).magnitude*0.5f, Acceleration * Time.deltaTime));
 					}
+					
+					//Fix Smooth Rotation Problems
 					if (new Vector2 (SSInput.LHor[0], SSInput.LVert[0]).magnitude > 0.01f) {
 						GameObject G = new GameObject();
 						G.transform.position = transform.position;
@@ -83,9 +100,11 @@ public class Movement : MonoBehaviour {
 					transform.rotation = Quaternion.Slerp (transform.rotation, Q, (TurnSpeed/(Mathf.Pow(Anim.GetFloat("VSpeed")+1, 2)))*Time.deltaTime);
 				}
 			} else {
+				//Stop Moving
 				Anim.SetFloat("VSpeed", Mathf.Lerp (Anim.GetFloat("VSpeed"), 0, Acceleration * Time.deltaTime));
 			}
 			
+			//Test If Floor In Front of You
 			RaycastHit Hit1;
 			if (Physics.Raycast ((transform.position)+(transform.up*MaxStepHeight), Vector3.down, out Hit1, MaxStepHeight+1, LM)) {
 				transform.position = new Vector3 (transform.position.x, Hit1.point.y+0.125f, transform.position.z);
@@ -95,11 +114,17 @@ public class Movement : MonoBehaviour {
 					}
 				}
 				Anim.SetBool("OnGround", true);
+				//Dont Fall If On Ground
+				GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 			} else {
+				//Fall if Not On Ground
+				GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
 				Anim.SetBool("OnGround", false);
 				Anim.SetFloat("YVel", GetComponent<Rigidbody>().velocity.y/10);
+				//Test If Wall in Front of You
 				if (Physics.Raycast ((transform.position)+(transform.up*MaxStepHeight), transform.forward, out Hit1, 1, LM)) {
 					Anim.SetFloat("VSpeed", 0);
+					//Test If Not Higher Wall in Front of You
 					if (!Physics.Raycast ((transform.position)+(transform.up*MaxStepHeight*2), transform.forward, out Hit1, 1.5f, LM)) {
 						GetComponent<Rigidbody>().isKinematic = true;
 						Anim.SetBool("Climb", true);
@@ -107,6 +132,7 @@ public class Movement : MonoBehaviour {
 				}
 			}
 		} else {
+			//Maintain Velocity When Paused
 			if (!WasPaused) {
 				PrevVel = GetComponent<Rigidbody>().velocity;
 				WasPaused = true;
@@ -128,6 +154,7 @@ public class Movement : MonoBehaviour {
 	}
 	
 	public void NAtt (string ParamName) {
+		//For The Animator To Reset Values
 		Anim.SetBool(ParamName, false);
 		if (ParamName == "Climb") {
 			transform.Translate (0, 1, 1);
