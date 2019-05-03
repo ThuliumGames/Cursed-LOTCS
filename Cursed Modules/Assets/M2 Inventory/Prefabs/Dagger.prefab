@@ -22,8 +22,8 @@ GameObject:
   - component: {fileID: 33914356823598572}
   - component: {fileID: 23213536409446150}
   - component: {fileID: 65892370879680072}
-  - component: {fileID: 114897106453808578}
   - component: {fileID: 114227968046406806}
+  - component: {fileID: 114423229248235040}
   m_Layer: 0
   m_Name: Dagger
   m_TagString: Untagged
@@ -114,7 +114,7 @@ MonoBehaviour:
   ObjectText: Pick Up
   MessageName: PickUp
   KeepInteract: 0
---- !u!114 &114897106453808578
+--- !u!114 &114423229248235040
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,8 +122,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1667266515823362}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a58c75af3bc03074ea17a503f3061bb5, type: 3}
+  m_Script: {fileID: 11500000, guid: 470535a922224454cb2d57f192219145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   AssociatedItem: {fileID: 11400000, guid: 213a12e3cb0f382429898cee5180ea82, type: 2}
   ProgNum: 0
+  InHandPosition: {x: 0, y: 0, z: 0}
+  InHandRotation: {x: 0, y: 0, z: 0}
+  AOC: {fileID: 22100000, guid: 5d98b9249996f814a99afe97758c8c9b, type: 2}
