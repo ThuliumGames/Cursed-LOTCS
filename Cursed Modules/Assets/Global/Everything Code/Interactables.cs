@@ -59,4 +59,8 @@ public class Interactables : MonoBehaviour {
 		GlobVars.InteractObject = null;
 		GlobVars.Interacting = false;
 	}
+	
+	void OnDrawGizmosSelected () {
+		Gizmos.DrawWireSphere(transform.position, Range);
+	}
 }

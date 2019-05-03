@@ -33,6 +33,8 @@ public class Movement : MonoBehaviour {
 	}
 	
 	void Update () {
+
+		GetComponent<Animator>().SetFloat ("ReverseAnim", 1);
 		
 		//Reset Attack Anim
 		if (!GetComponentInChildren<Weapon>()) {
@@ -43,7 +45,9 @@ public class Movement : MonoBehaviour {
 			
 			//Maintain Velocity When Paused
 			Pos = transform.position;
-			GetComponent<Rigidbody>().isKinematic = false;
+			if (!Anim.GetBool("Climb")) {
+				GetComponent<Rigidbody>().isKinematic = false;
+			}
 			if (WasPaused) {
 				GetComponent<Rigidbody>().velocity = PrevVel;
 				WasPaused = false;
@@ -106,16 +110,22 @@ public class Movement : MonoBehaviour {
 			
 			//Test If Floor In Front of You
 			RaycastHit Hit1;
-			if (Physics.Raycast ((transform.position)+(transform.up*MaxStepHeight), Vector3.down, out Hit1, MaxStepHeight+1, LM)) {
-				transform.position = new Vector3 (transform.position.x, Hit1.point.y+0.125f, transform.position.z);
-				if (!Anim.GetBool("OnGround")) {
-					if (GetComponent<Rigidbody>().velocity.y < -20) {
-						GetComponent<Health>().Wound += (-GetComponent<Rigidbody>().velocity.y / GetComponent<Health>().BaseResistance);
-					}
-				}
-				Anim.SetBool("OnGround", true);
+			if (Physics.BoxCast ((transform.position)+(transform.up*MaxStepHeight), new Vector3 (0.25f, 0.1f, 0.25f), Vector3.down, out Hit1, Quaternion.Euler (Vector3.zero), MaxStepHeight+1, LM)) {
 				//Dont Fall If On Ground
 				GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
+				if (Hit1.normal.y > 0.75f) {
+					transform.position = new Vector3 (transform.position.x, Hit1.point.y+0.125f, transform.position.z);
+					if (!Anim.GetBool("OnGround")) {
+						if (GetComponent<Rigidbody>().velocity.y < -20) {
+							GetComponent<Health>().Wound += (-GetComponent<Rigidbody>().velocity.y / GetComponent<Health>().BaseResistance);
+						}
+					}
+					Anim.SetBool("OnGround", true);
+				} else {
+					Anim.SetFloat("VSpeed", 0);
+					Anim.SetBool("OnGround", false);
+					transform.position += new Vector3 (Hit1.normal.x*10*Time.deltaTime, -10*Time.deltaTime, Hit1.normal.z*10*Time.deltaTime);
+				}
 			} else {
 				//Fall if Not On Ground
 				GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
@@ -125,8 +135,10 @@ public class Movement : MonoBehaviour {
 				if (Physics.Raycast ((transform.position)+(transform.up*MaxStepHeight), transform.forward, out Hit1, 1, LM)) {
 					Anim.SetFloat("VSpeed", 0);
 					//Test If Not Higher Wall in Front of You
-					if (!Physics.Raycast ((transform.position)+(transform.up*MaxStepHeight*2), transform.forward, out Hit1, 1.5f, LM)) {
+					if (!Physics.Raycast ((transform.position)+(transform.up*MaxStepHeight*2f), transform.forward, out Hit1, 1.5f, LM)) {
 						GetComponent<Rigidbody>().isKinematic = true;
+						while (Physics.Raycast ((transform.position)+(transform.up*MaxStepHeight*1.3f), transform.forward, 1.5f, LM)) {transform.Translate(0, 0.1f, 0);}
+						while (!Physics.Raycast ((transform.position)+(transform.up*MaxStepHeight*1.2f), transform.forward, 1.5f, LM)) {transform.Translate(0, -0.1f, 0);}
 						Anim.SetBool("Climb", true);
 					}
 				}
@@ -159,5 +171,9 @@ public class Movement : MonoBehaviour {
 		if (ParamName == "Climb") {
 			transform.Translate (0, 1, 1);
 		}
+	}
+	
+	void PlayGroundSound () {
+		GetComponent<AudioSource>().Play();
 	}
 }

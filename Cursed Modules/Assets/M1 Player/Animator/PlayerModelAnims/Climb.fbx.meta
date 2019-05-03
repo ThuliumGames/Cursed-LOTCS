@@ -121,6 +121,44 @@ ModelImporter:
     100230: toe.R_end
     100232: upper_arm.L
     100234: upper_arm.R
+    100236: breast.L_end_end
+    100238: breast.R_end_end
+    100240: f_index.03.L_end_end
+    100242: f_index.03.R_end_end
+    100244: f_middle.03.L_end_end
+    100246: f_middle.03.R_end_end
+    100248: f_pinky.03.L_end_end
+    100250: f_pinky.03.R_end_end
+    100252: f_ring.03.L_end_end
+    100254: f_ring.03.R_end_end
+    100256: heel.02.L_end_end
+    100258: heel.02.R_end_end
+    100260: pelvis.L_end_end
+    100262: pelvis.R_end_end
+    100264: spine.006_end_end
+    100266: thumb.03.L_end_end
+    100268: thumb.03.R_end_end
+    100270: toe.L_end_end
+    100272: toe.R_end_end
+    100274: breast.L_end_end_end
+    100276: breast.R_end_end_end
+    100278: f_index.03.L_end_end_end
+    100280: f_index.03.R_end_end_end
+    100282: f_middle.03.L_end_end_end
+    100284: f_middle.03.R_end_end_end
+    100286: f_pinky.03.L_end_end_end
+    100288: f_pinky.03.R_end_end_end
+    100290: f_ring.03.L_end_end_end
+    100292: f_ring.03.R_end_end_end
+    100294: heel.02.L_end_end_end
+    100296: heel.02.R_end_end_end
+    100298: pelvis.L_end_end_end
+    100300: pelvis.R_end_end_end
+    100302: spine.006_end_end_end
+    100304: thumb.03.L_end_end_end
+    100306: thumb.03.R_end_end_end
+    100308: toe.L_end_end_end
+    100310: toe.R_end_end_end
     400000: breast.L
     400002: breast.L_end
     400004: breast.R
@@ -239,6 +277,44 @@ ModelImporter:
     400230: toe.R_end
     400232: upper_arm.L
     400234: upper_arm.R
+    400236: breast.L_end_end
+    400238: breast.R_end_end
+    400240: f_index.03.L_end_end
+    400242: f_index.03.R_end_end
+    400244: f_middle.03.L_end_end
+    400246: f_middle.03.R_end_end
+    400248: f_pinky.03.L_end_end
+    400250: f_pinky.03.R_end_end
+    400252: f_ring.03.L_end_end
+    400254: f_ring.03.R_end_end
+    400256: heel.02.L_end_end
+    400258: heel.02.R_end_end
+    400260: pelvis.L_end_end
+    400262: pelvis.R_end_end
+    400264: spine.006_end_end
+    400266: thumb.03.L_end_end
+    400268: thumb.03.R_end_end
+    400270: toe.L_end_end
+    400272: toe.R_end_end
+    400274: breast.L_end_end_end
+    400276: breast.R_end_end_end
+    400278: f_index.03.L_end_end_end
+    400280: f_index.03.R_end_end_end
+    400282: f_middle.03.L_end_end_end
+    400284: f_middle.03.R_end_end_end
+    400286: f_pinky.03.L_end_end_end
+    400288: f_pinky.03.R_end_end_end
+    400290: f_ring.03.L_end_end_end
+    400292: f_ring.03.R_end_end_end
+    400294: heel.02.L_end_end_end
+    400296: heel.02.R_end_end_end
+    400298: pelvis.L_end_end_end
+    400300: pelvis.R_end_end_end
+    400302: spine.006_end_end_end
+    400304: thumb.03.L_end_end_end
+    400306: thumb.03.R_end_end_end
+    400308: toe.L_end_end_end
+    400310: toe.R_end_end_end
     2100000: No Name
     4300000: Cube.029
     4300002: Cube.028
@@ -271,6 +347,8 @@ ModelImporter:
     4300056: Cube.001
     4300058: Cube
     7400000: metarig|metarigAction
+    7400002: metarig|metarig|metarig|metarigAction|metarig|metarigAction
+    7400004: metarig|metarig|metarig|metarig|metarig|metarigAction|metarig|metarigAc
     9500000: //RootNode
     13700000: Cube
     13700002: Cube.001
