@@ -5548,7 +5548,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 2
 --- !u!81 &81772411824578544
 AudioListener:
@@ -6079,7 +6079,7 @@ MonoBehaviour:
       m_Right: 0
       m_Top: 0
       m_Bottom: 0
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 3}
     m_FontSize: 50
     m_FontStyle: 1
     m_Alignment: 1
@@ -7112,7 +7112,7 @@ MonoBehaviour:
   StamIma: {fileID: 114061035633743618}
   LM:
     serializedVersion: 2
-    m_Bits: 1591
+    m_Bits: 1575
   AOC: {fileID: 22100000, guid: c79b1edfecdcf634a87e60af2e8e5b83, type: 2}
 --- !u!114 &114279467622617130
 MonoBehaviour:
@@ -9404,7 +9404,7 @@ MonoBehaviour:
       m_Right: 0
       m_Top: 0
       m_Bottom: 0
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 3}
     m_FontSize: 50
     m_FontStyle: 1
     m_Alignment: 1
