@@ -10,6 +10,8 @@ public class Interactables : MonoBehaviour {
 	public string MessageName;
 	public bool KeepInteract;
 	
+	bool MustLeave;
+	
 	void Update () {
 		
 		float Dist = 10000;
@@ -31,15 +33,20 @@ public class Interactables : MonoBehaviour {
 		
 		if (Dist == DFP) {
 			GlobVars.ClosestInteractable = this.gameObject;
+		} else {
+			MustLeave = false;
 		}
 
-		if ((Dist == DFP || AutoInteract) && DFP <= Range) {
+		if (((Dist == DFP || AutoInteract) && DFP <= Range) && !MustLeave) {
 			if (!AutoInteract) {
 				GlobVars.NearInteractable = true;
 				GlobVars.InteractText = ObjectText;
 			}
 			if ((SSInput.A[0] == "Pressed" || AutoInteract) && !GlobVars.PlayerPaused && !GlobVars.Reading && !GlobVars.Interacting) {
 				if (KeepInteract) {
+					if (AutoInteract) {
+						MustLeave = true;
+					}
 					GlobVars.InteractObject = this.gameObject;
 					GlobVars.Interacting = true;
 				}
@@ -51,5 +58,9 @@ public class Interactables : MonoBehaviour {
 	public static void StopI () {
 		GlobVars.InteractObject = null;
 		GlobVars.Interacting = false;
+	}
+	
+	void OnDrawGizmosSelected () {
+		Gizmos.DrawWireSphere(transform.position, Range);
 	}
 }

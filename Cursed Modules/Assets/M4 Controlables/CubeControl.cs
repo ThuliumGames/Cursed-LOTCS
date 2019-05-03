@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CubeControl : Rideables {
+	
 	GameObject Player;
 	Vector3 PosToGo;
 	bool CanChangeSpeed = true;
 	int CurentSpeed;
+	
 	void LateUpdate () {
 		Player = GameObject.Find("Player");
 		if (!GetComponent<Rideables>().Riding) {
@@ -14,7 +16,7 @@ public class CubeControl : Rideables {
 			GetOn();
 		} else {
 			GetComponent<Rigidbody>().angularVelocity = new Vector3 (0, SSInput.LHor[0] * TurnSpeed, 0);
-			GetComponent<Rigidbody>().velocity = transform.forward * GetComponent<Rideables>().Speeds[CurentSpeed];
+			GetComponent<Rigidbody>().velocity = (transform.forward * GetComponent<Rideables>().Speeds[CurentSpeed]) + new Vector3 (0, GetComponent<Rigidbody>().velocity.y, 0);
 			
 			if (CanChangeSpeed) {
 				if (SSInput.LVert[0] >= 0.75) {
@@ -47,7 +49,7 @@ public class CubeControl : Rideables {
 					RB.mass = GetComponent<Rideables>().PlayerMass;
 					RB.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 					RB.interpolation = RigidbodyInterpolation.Interpolate;
-					RB.constraints = RigidbodyConstraints.FreezeRotation;
+					RB.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 				}
 				Interactables.StopI();
 				GetOn();
