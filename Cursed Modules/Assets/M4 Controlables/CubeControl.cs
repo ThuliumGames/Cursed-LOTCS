@@ -47,8 +47,8 @@ public class CubeControl : Rideables {
 					Rigidbody RB;
 					RB = Player.GetComponent<Rigidbody>();
 					RB.mass = GetComponent<Rideables>().PlayerMass;
-					RB.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-					RB.interpolation = RigidbodyInterpolation.Interpolate;
+					RB.collisionDetectionMode = CollisionDetectionMode.Continuous;
+					RB.interpolation = RigidbodyInterpolation.None;
 					RB.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 				}
 				Interactables.StopI();

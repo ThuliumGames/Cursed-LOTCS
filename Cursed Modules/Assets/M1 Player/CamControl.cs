@@ -18,6 +18,7 @@ public class CamControl : MonoBehaviour {
 	float Ac;
 	
 	Vector3 Pre;
+	float Ler;
 	
 	void LateUpdate () {
 		
@@ -32,9 +33,27 @@ public class CamControl : MonoBehaviour {
 			UpDown += -SSInput.RVert[0]*100*Time.deltaTime;
 			UpDown = Mathf.Clamp (UpDown, Min, Max);
 			transform.RotateAround (ObjToFollow.position+new Vector3 (0,1,0), transform.right, UpDown);
-			RaycastHit Hit;
-			if (Physics.Raycast (ObjToFollow.position+(Vector3.up*Up), -transform.forward, out Hit, Back+0.5f, LM)) {
-				transform.Translate (0, 0, Back-Hit.distance+0.5f);
+			RaycastHit Hit1;
+			if (Physics.BoxCast (ObjToFollow.position+(Vector3.up*Up), Vector3.one*0.75f, -transform.forward, out Hit1, Quaternion.Euler (Vector3.zero), Back+0.5f, LM)) {
+				RaycastHit Hit;
+				if (Physics.Raycast (ObjToFollow.position+(Vector3.up*Up), -transform.forward, out Hit, Back+0.5f, LM)) {
+					if (Ler < Back-Hit.distance+0.5f) {
+						Ler = Back-Hit.distance+0.5f;
+					} else {
+						Ler = Mathf.Lerp (Ler, Back-Hit1.distance+0.5f, 3*Time.deltaTime);
+					}
+				} else {
+					Ler = Mathf.Lerp (Ler, Back-Hit1.distance+0.5f, 3*Time.deltaTime);
+				}
+				transform.Translate (0, 0, Ler);
+			} else {
+				RaycastHit Hit;
+				if (Physics.Raycast (ObjToFollow.position+(Vector3.up*Up), -transform.forward, out Hit, Back+0.5f, LM)) {
+					Ler = Back-Hit.distance+0.5f;
+				} else {
+					Ler = Mathf.Lerp (Ler, 0, 3*Time.deltaTime);
+				}
+				transform.Translate (0, 0, Ler);
 			}
 			transform.Rotate (10, 0, 0);
 			Pre = G.transform.position;

@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33143798862677262}
   - component: {fileID: 23448233241640946}
   - component: {fileID: 64058947152679228}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 33517006905660372}
   - component: {fileID: 23213398096725574}
   - component: {fileID: 64969925908548092}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube_001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 4468276369946898}
   - component: {fileID: 33801944481785182}
   - component: {fileID: 23507845097425396}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Plane_004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 4912138588156734}
   - component: {fileID: 114678345744092258}
   - component: {fileID: 114747921262946546}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Training Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 33357144479364074}
   - component: {fileID: 23124162250834168}
   - component: {fileID: 64384436039963030}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube_002
   m_TagString: Untagged
   m_Icon: {fileID: 0}

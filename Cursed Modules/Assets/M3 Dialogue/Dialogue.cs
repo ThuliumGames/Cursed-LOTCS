@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
-public class CostomCode {
+public class CustomCode {
 	public MonoBehaviour component;
 	public string Command;
 	[Header("Only 1")]
@@ -37,8 +37,8 @@ public class CostomCode {
 	public Vector3 CamPos;
 	public float MoveSpeed;
 	[Header("")]
-	[Header("For Costom Code Execution")]
-	public CostomCode[] CodeToExecute;
+	[Header("For Custom Code Execution")]
+	public CustomCode[] CodeToExecute;
  }
 
 public class Dialogue : MonoBehaviour {
@@ -50,6 +50,7 @@ public class Dialogue : MonoBehaviour {
 	public Sprite BackgroundToUse;
 	public Text RegWrite;
 	public Text AnsWrite;
+	public Image[] AnsBox;
 	public Text NameWrite;
 	public GameObject GoToNext;
 	[Header("")]
@@ -96,6 +97,11 @@ public class Dialogue : MonoBehaviour {
 		if (!GlobVars.PlayerPaused || GlobVars.Reading) {
 			if (GlobVars.InteractObject == this.gameObject) {
 			
+				AnsBox[0].gameObject.SetActive(false);
+				AnsBox[1].gameObject.SetActive(false);
+				AnsBox[2].gameObject.SetActive(false);
+				AnsBox[3].gameObject.SetActive(false);
+			
 				if (!isQuest) {
 					if (SSInput.A[0] == "Pressed" || SSInput.B[0] == "Pressed") {
 						if (DoneReading) {
@@ -132,40 +138,44 @@ public class Dialogue : MonoBehaviour {
 						}
 					}
 				} else {
-					if (SSInput.A[0] == "Pressed") {
-						if (DoneReading) {
+					if (DoneReading) {
+						AnsBox[0].gameObject.SetActive(true);
+						if (SSInput.A[0] == "Pressed") {
 							DoneReading = false;
 							DoneTalking = false;
 							TextToRead = DialogueVariables[TextToRead].NextAnsText[0];
 							StartCoroutine(Write ());
 							Writing = true;
 						}
-					}
-					if (SSInput.B[0] == "Pressed") {
-						if (DoneReading && AmOfAns > 1) {
-							DoneReading = false;
-							DoneTalking = false;
-							TextToRead = DialogueVariables[TextToRead].NextAnsText[1];
-							StartCoroutine(Write ());
-							Writing = true;
+						if (AmOfAns > 1) {
+							AnsBox[1].gameObject.SetActive(true);
+							if (SSInput.B[0] == "Pressed") {
+								DoneReading = false;
+								DoneTalking = false;
+								TextToRead = DialogueVariables[TextToRead].NextAnsText[1];
+								StartCoroutine(Write ());
+								Writing = true;
+							}
 						}
-					}
-					if (SSInput.X[0] == "Pressed") {
-						if (DoneReading && AmOfAns > 2) {
-							DoneReading = false;
-							DoneTalking = false;
-							TextToRead = DialogueVariables[TextToRead].NextAnsText[2];
-							StartCoroutine(Write ());
-							Writing = true;
+						if (AmOfAns > 2) {
+							AnsBox[2].gameObject.SetActive(true);
+							if (SSInput.X[0] == "Pressed") {
+								DoneReading = false;
+								DoneTalking = false;
+								TextToRead = DialogueVariables[TextToRead].NextAnsText[2];
+								StartCoroutine(Write ());
+								Writing = true;
+							}
 						}
-					}
-					if (SSInput.Y[0] == "Pressed") {
-						if (DoneReading && AmOfAns > 3) {
-							DoneReading = false;
-							DoneTalking = false;
-							TextToRead = DialogueVariables[TextToRead].NextAnsText[3];
-							StartCoroutine(Write ());
-							Writing = true;
+						if (AmOfAns > 3) {
+							AnsBox[3].gameObject.SetActive(true);
+							if (SSInput.Y[0] == "Pressed") {
+								DoneReading = false;
+								DoneTalking = false;
+								TextToRead = DialogueVariables[TextToRead].NextAnsText[3];
+								StartCoroutine(Write ());
+								Writing = true;
+							}
 						}
 					}
 				}
@@ -317,9 +327,6 @@ public class Dialogue : MonoBehaviour {
 						AnsWrite.text += "\n";
 					} else {
 						AnsWrite.text += C;
-					}
-					if ((SSInput.B[0] != "Down" || Skip < 3) && (!isSign || Skip < 2)) {
-						yield return new WaitForSeconds (WT/10);
 					}
 				}
 			}

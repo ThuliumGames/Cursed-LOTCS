@@ -79,18 +79,18 @@ public class Health : MonoBehaviour {
 	
 	void OnTriggerEnter (Collider Other) {
 		//Damage
-		if (Other.gameObject.layer == HurtLayer && Other.GetComponent<ItemObject>() != null) {
+		if (Other.gameObject.layer == HurtLayer && Other.GetComponentInParent<ItemObject>() != null) {
 			if ((ArmorObject[0] == null && ArmorObject[1] == null && ArmorObject[2] == null)) {
-				Wound += (Other.GetComponent<ItemObject>().AssociatedItem.ProgNum/BaseResistance);
+				Wound += (Other.GetComponentInParent<ItemObject>().AssociatedItem.ProgNum/BaseResistance);
 			} else {
 				if (ArmorObject[2] != null) {
-					ArmorObject[2].ProgNum -= Other.GetComponent<ItemObject>().AssociatedItem.ProgNum/BaseResistance;
+					ArmorObject[2].ProgNum -= Other.GetComponentInParent<ItemObject>().AssociatedItem.ProgNum/BaseResistance;
 					ArmorObject[2].ProgNum = (int)ArmorObject[2].ProgNum;
 				} else if (ArmorObject[1] != null) {
-					ArmorObject[1].ProgNum -= Other.GetComponent<ItemObject>().AssociatedItem.ProgNum/BaseResistance;
+					ArmorObject[1].ProgNum -= Other.GetComponentInParent<ItemObject>().AssociatedItem.ProgNum/BaseResistance;
 					ArmorObject[1].ProgNum = (int)ArmorObject[1].ProgNum;
 				} else {
-					ArmorObject[0].ProgNum -= Other.GetComponent<ItemObject>().AssociatedItem.ProgNum/BaseResistance;
+					ArmorObject[0].ProgNum -= Other.GetComponentInParent<ItemObject>().AssociatedItem.ProgNum/BaseResistance;
 					ArmorObject[0].ProgNum = (int)ArmorObject[0].ProgNum;
 				}
 			}
