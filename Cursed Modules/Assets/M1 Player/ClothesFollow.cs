@@ -8,7 +8,7 @@ public class ClothesFollow : MonoBehaviour {
 	public SkinnedMeshRenderer[] Clothes;
 	
 	void Update () {
-		
+		transform.position = Player.transform.position;
 		foreach (SkinnedMeshRenderer T in Clothes) {
 			T.bones = Player.bones;
 		}

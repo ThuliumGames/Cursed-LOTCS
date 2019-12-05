@@ -6,6 +6,7 @@ public class Interactables : MonoBehaviour {
 	
 	public bool AutoInteract;
 	public float Range;
+	public Vector3 GlobalOffset;
 	public string ObjectText;
 	public string MessageName;
 	public bool KeepInteract;
@@ -16,11 +17,11 @@ public class Interactables : MonoBehaviour {
 		
 		float Dist = 10000;
 		
-		float DFP = Vector3.Distance (transform.position, GameObject.Find("Player").transform.position);
+		float DFP = Vector3.Distance (transform.position+GlobalOffset, GameObject.Find("Player").transform.position);
 		
 		foreach (Interactables I in GameObject.FindObjectsOfType<Interactables>()) {
 			
-			DFP = Vector3.Distance (I.transform.position, GameObject.Find("Player").transform.position);
+			DFP = Vector3.Distance (I.transform.position+I.GlobalOffset, GameObject.Find("Player").transform.position);
 			
 			if (DFP < Dist && DFP <= Range) {
 				if (DFP < Dist) {
@@ -29,7 +30,7 @@ public class Interactables : MonoBehaviour {
 			}
 		}
 		
-		DFP = Vector3.Distance (transform.position, GameObject.Find("Player").transform.position);
+		DFP = Vector3.Distance (transform.position+GlobalOffset, GameObject.Find("Player").transform.position);
 		
 		if (Dist == DFP) {
 			GlobVars.ClosestInteractable = this.gameObject;
@@ -61,6 +62,6 @@ public class Interactables : MonoBehaviour {
 	}
 	
 	void OnDrawGizmosSelected () {
-		Gizmos.DrawWireSphere(transform.position, Range);
+		Gizmos.DrawWireSphere(transform.position+GlobalOffset, Range);
 	}
 }

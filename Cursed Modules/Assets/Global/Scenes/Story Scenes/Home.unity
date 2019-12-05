@@ -236,9 +236,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 258caa37addd22e4195022d910f018c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CutSceneName: SampleScene
+  CutSceneName: Dungeon
   CutsceneLength: 0
-  ReturnLocation: {x: 0, y: 0, z: 13}
+  ReturnLocation: {x: -5.310172, y: -1.837307, z: -4.483752}
 --- !u!114 &71878743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,7 +252,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AutoInteract: 0
   Range: 3
-  ObjectText: Open Door
+  ObjectText: Exit [To Overworld]
   MessageName: DoCut
   KeepInteract: 0
 --- !u!23 &71878744
@@ -1919,6 +1919,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1624606977
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1624606978}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1624606978
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1624606977}
+  m_LocalRotation: {x: -0, y: -0.010901561, z: -0, w: -0.9999406}
+  m_LocalPosition: {x: -5.3101716, y: -1.8373075, z: -4.4837523}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1648908251
 GameObject:

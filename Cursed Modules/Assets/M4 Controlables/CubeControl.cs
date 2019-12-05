@@ -4,43 +4,47 @@ using UnityEngine;
 
 public class CubeControl : Rideables {
 	
-	GameObject Player;
 	Vector3 PosToGo;
-	bool CanChangeSpeed = true;
-	int CurentSpeed;
+	float Angle;
+	public float Speed;
+	public float TurnSpeed;
 	
 	void LateUpdate () {
-		Player = GameObject.Find("Player");
 		if (!GetComponent<Rideables>().Riding) {
-			CurentSpeed = 1;
+			if (GetComponent<Animator>()) {
+				GetComponent<Animator>().SetBool ("isMoving", false);
+			}
 			GetOn();
 		} else {
-			GetComponent<Rigidbody>().angularVelocity = new Vector3 (0, SSInput.LHor[0] * TurnSpeed, 0);
-			GetComponent<Rigidbody>().velocity = (transform.forward * GetComponent<Rideables>().Speeds[CurentSpeed]) + new Vector3 (0, GetComponent<Rigidbody>().velocity.y, 0);
 			
-			if (CanChangeSpeed) {
-				if (SSInput.LVert[0] >= 0.75) {
-					CanChangeSpeed = false; 
-					if (CurentSpeed < GetComponent<Rideables>().Speeds.Length - 1) {
-						CurentSpeed++;
-					}
+			Player.transform.localPosition = Offset;
+			Player.transform.localEulerAngles = Vector3.zero;
+			
+			if ((Mathf.Abs (SSInput.LHor[0]) > 0.05f || Mathf.Abs (SSInput.LVert[0]) > 0.05f)) {
+				Angle = (Mathf.Atan2(SSInput.LHor[0], SSInput.LVert[0])*Mathf.Rad2Deg)+Camera.main.transform.eulerAngles.y;
+				if (Speed > 0) {
+					GetComponent<Rigidbody>().velocity = (transform.forward * (Mathf.Clamp01(new Vector2(SSInput.LHor[0], SSInput.LVert[0]).magnitude)*Speed)) + new Vector3 (0, GetComponent<Rigidbody>().velocity.y, 0);;
 				}
-				if (SSInput.LVert[0] <= -0.75) {
-					CanChangeSpeed = false; 
-					if (CurentSpeed > 0) {
-						CurentSpeed--;
-					}
+				if (GetComponent<Animator>()) {
+					GetComponent<Animator>().SetBool ("isMoving", true);
 				}
+				GameObject G = new GameObject();
+				G.transform.eulerAngles = new Vector3 (0, Angle, 0);
+				transform.rotation = Quaternion.Lerp(transform.rotation, G.transform.rotation, TurnSpeed*Time.deltaTime);
+				Destroy(G);
 			} else {
-				if (SSInput.LVert[0] == 0) {
-					CanChangeSpeed = true;
+				if (Speed > 0) {
+					GetComponent<Rigidbody>().velocity = new Vector3 (0, GetComponent<Rigidbody>().velocity.y, 0);
+				}
+				if (GetComponent<Animator>()) {
+					GetComponent<Animator>().SetBool ("isMoving", false);
 				}
 			}
 			
 			if (SSInput.B[0] == "Pressed" && SSInput.LHor[0] == 0 && SSInput.LVert[0] == 0) {
 				GlobVars.Reading = false;
 				Player.transform.parent = GameObject.Find("All Level Objects").transform;
-				Player.GetComponent<Animator>().enabled = true;
+				Player.GetComponent<Animator>().SetBool("Riding", false);
 				Player.GetComponent<Movement>().enabled = true;
 				if (Player.GetComponent<Rigidbody>() == null) {
 					Player.AddComponent<Rigidbody>();

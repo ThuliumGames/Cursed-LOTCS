@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Rendering;
+using UnityEngine.Experimental.Rendering.HDPipeline;
 
 public class Sun : MonoBehaviour {
 
@@ -9,8 +10,9 @@ public class Sun : MonoBehaviour {
 	public float Count;
 
 	public float SunChangeSpeed = 0.01f;
-	PostProcessVolume PPV;
-	ColorGrading CG;
+	Volume SSV;
+	ColorAdjustments CA;
+	WhiteBalance WB;
 
 	Light SunLight;
 	float GameSpeed;
@@ -19,7 +21,7 @@ public class Sun : MonoBehaviour {
 	
 
 	void Start () {
-		PPV = Camera.main.GetComponent<PostProcessVolume>();
+		SSV = GetComponentInChildren<Volume>();
 		SunLight = GetComponent <Light>();
 		GlobVars.Hour = 6;
 	}
@@ -27,7 +29,14 @@ public class Sun : MonoBehaviour {
 
 	void Update () {
 		
-		PPV.profile.TryGetSettings(out CG);
+		for (int i = 0; i < SSV.profile.components.Count; i++) {
+			if(SSV.profile.components[i].name == "ColorAdjustments(Clone)") {
+				CA = (ColorAdjustments)SSV.profile.components[i];
+			}
+			if(SSV.profile.components[i].name == "WhiteBalance(Clone)") {
+				WB = (WhiteBalance)SSV.profile.components[i];
+			}
+		}
 		
 		GameSpeed = Time.deltaTime * TimeMultiplier;
 		
@@ -52,14 +61,12 @@ public class Sun : MonoBehaviour {
 		
 		transform.RotateAround(transform.position, GameObject.Find("SunAngler").transform.right, Angle);
 		if (GlobVars.Hour < 18 && GlobVars.Hour >= 6) {
-			CG.postExposure.value = Mathf.Lerp (CG.postExposure.value, 0, GameSpeed/10);
-			CG.temperature.value = Mathf.Abs(Mathf.Cos((Angle+90)*Mathf.Deg2Rad)*50);
+			CA.postExposure.value = Mathf.Lerp (CA.postExposure.value, 0, GameSpeed/10);
+			WB.temperature.value = Mathf.Abs(Mathf.Cos((Angle+90)*Mathf.Deg2Rad)*50);
 		} else {
-			CG.postExposure.value = Mathf.Lerp (CG.postExposure.value, -3, GameSpeed/10);
-			CG.temperature.value = -Mathf.Abs(Mathf.Cos((Angle)*Mathf.Deg2Rad)*50);
+			CA.postExposure.value = Mathf.Lerp (CA.postExposure.value, -1, GameSpeed/10);
+			WB.temperature.value = -Mathf.Abs(Mathf.Cos((Angle)*Mathf.Deg2Rad)*50);
 		}
-		
-		GetComponent<Light>().color = new Color (1, ((-CG.temperature.value+50)/75)+0.25f, 0/*((-CG.temperature.value+50)/50)*/);
 	}
 
 	void OnGUI () {

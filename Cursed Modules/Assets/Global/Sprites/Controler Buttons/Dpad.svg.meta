@@ -1,13 +1,24 @@
 fileFormatVersion: 2
 guid: 7a045bf2d9ac4d744aed4e35f30e0b59
 ScriptedImporter:
-  fileIDToRecycleName:
-    100000: gameObject/Dpad
-    400000: gameObject/Dpad/Transform
-    21200000: gameObject/Dpad/SpriteRenderer
-    21300000: sprite
-    100100000: gameObject
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: gameObject/Dpad
+  - first:
+      4: 400000
+    second: gameObject/Dpad/Transform
+  - first:
+      212: 21200000
+    second: gameObject/Dpad/SpriteRenderer
+  - first:
+      213: 21300000
+    second: sprite
+  - first:
+      1001: 100100000
+    second: gameObject
   externalObjects: {}
+  serializedVersion: 2
   userData: 
   assetBundleName: 
   assetBundleVariant: 
@@ -19,6 +30,7 @@ ScriptedImporter:
   alignment: 0
   customPivot: {x: 0, y: 0}
   generatePhysicsShape: 0
+  viewportOptions: 0
   preserveViewport: 0
   advancedMode: 0
   predefinedResolutionIndex: 1
@@ -37,6 +49,7 @@ ScriptedImporter:
   wrapMode: 0
   filterMode: 1
   sampleCount: 4
+  preserveSVGImageAspect: 0
   spriteData:
     TessellationDetail: 0
     SpriteRect:
@@ -52,4 +65,5 @@ ScriptedImporter:
         width: 0
         height: 0
       spriteID: a85198075ff810942b1e0edc1f18ef3d
+      internalID: 0
     PhysicsOutlines: []

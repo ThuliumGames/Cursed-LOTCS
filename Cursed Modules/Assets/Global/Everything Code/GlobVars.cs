@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GlobVars : MonoBehaviour {
 	
@@ -18,6 +19,15 @@ public class GlobVars : MonoBehaviour {
 	public static bool Interacting;
 	public static bool NearInteractable;
 	public static string InteractText;
+	
+	//TalkPre
+	public Canvas DialogueCanvas;
+	public Image BackgroundImage;
+	public Text RegWrite;
+	public Text AnsWrite;
+	public Image[] AnsBox;
+	public Text NameWrite;
+	public GameObject GoToNext;
 	//Time
 	public static int Days = 0;
 	public static int Hour;

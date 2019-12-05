@@ -44,16 +44,17 @@ public class CustomCode {
 public class Dialogue : MonoBehaviour {
 	bool StopInteract;
 	bool CanGo = true;
+	
+	Canvas DialogueCanvas;
+	Image BackgroundImage;
+	Text RegWrite;
+	Text AnsWrite;
+	Image[] AnsBox;
+	Text NameWrite;
+	GameObject GoToNext;
+	
 	[Header("")]
-	public Canvas DialogueCanvas;
-	public Image BackgroundImage;
 	public Sprite BackgroundToUse;
-	public Text RegWrite;
-	public Text AnsWrite;
-	public Image[] AnsBox;
-	public Text NameWrite;
-	public GameObject GoToNext;
-	[Header("")]
 	public bool isSign;
 	public TextAnchor TextAlign;
 	public float WT = 0.05f;
@@ -76,6 +77,17 @@ public class Dialogue : MonoBehaviour {
 	bool WaitForInput;
 	
 	string Words;
+	
+	void Start () {
+		DialogueCanvas = GameObject.FindObjectOfType<GlobVars>().DialogueCanvas;
+		BackgroundImage = GameObject.FindObjectOfType<GlobVars>().BackgroundImage;
+		RegWrite = GameObject.FindObjectOfType<GlobVars>().RegWrite;
+		AnsWrite = GameObject.FindObjectOfType<GlobVars>().AnsWrite;
+		AnsBox = GameObject.FindObjectOfType<GlobVars>().AnsBox;
+		NameWrite = GameObject.FindObjectOfType<GlobVars>().NameWrite;
+		GoToNext = GameObject.FindObjectOfType<GlobVars>().GoToNext;
+		
+	}
 	
 	void Update () {
 		
@@ -319,12 +331,15 @@ public class Dialogue : MonoBehaviour {
 		}
 		
 		if (isQuest) {
+			AnsWrite.text = "<color=#00000000>";
 			foreach (char C in DialogueVariables[TextToRead].AnsText) {
 				if (AmOfAns == -1) {
 					AmOfAns = (int)(C)-48;
 				} else {
 					if (C == '>') {
 						AnsWrite.text += "\n";
+					} else if (C == ')') {
+						AnsWrite.text += C + "</color>";
 					} else {
 						AnsWrite.text += C;
 					}

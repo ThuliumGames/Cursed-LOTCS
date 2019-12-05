@@ -22,6 +22,8 @@ public class Health : MonoBehaviour {
 	public bool isPlayer;
 	public Image[] Graphics;
 	
+	float invulnTimer;
+	
 	void Update () {
 		
 		//SetUp Armor
@@ -68,18 +70,22 @@ public class Health : MonoBehaviour {
 			
 			for (int i = 0; i < 3; i++) {
 				if (ArmorObject[i] != null) {
-				Graphics[i+1].fillAmount = ArmorObject[i].ProgNum/ArmorObject[i].AssociatedItem.ProgNum;
+					Graphics[i+1].fillAmount = ArmorObject[i].ProgNum/ArmorObject[i].AssociatedItem.ProgNum;
 				} else {
 					Graphics[i+1].fillAmount = 0;
 				}
 			}
 		}
 		//
+		
+		invulnTimer -= Time.deltaTime;
+		invulnTimer = Mathf.Clamp01 (invulnTimer);
 	}
 	
 	void OnTriggerEnter (Collider Other) {
 		//Damage
-		if (Other.gameObject.layer == HurtLayer && Other.GetComponentInParent<ItemObject>() != null) {
+		if (Other.gameObject.layer == HurtLayer && Other.GetComponentInParent<ItemObject>() != null && invulnTimer <= 0) {
+			invulnTimer = 1;
 			if ((ArmorObject[0] == null && ArmorObject[1] == null && ArmorObject[2] == null)) {
 				Wound += (Other.GetComponentInParent<ItemObject>().AssociatedItem.ProgNum/BaseResistance);
 			} else {

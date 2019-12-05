@@ -4,36 +4,73 @@ using UnityEngine.SceneManagement;
 
 public class SSInput : MonoBehaviour {
 	
-	public static float[] LT = {0,0,0,0};
-	public static float[] RT = {0,0,0,0};
-	public static string[] DUp = {"Up","Up","Up","Up"};
-	public static string[] DRight = {"Up","Up","Up","Up"};
-	public static string[] DDown = {"Up","Up","Up","Up"};
-	public static string[] DLeft = {"Up","Up","Up","Up"};
-	public static string[] Strt = {"Up","Up","Up","Up"};
-	public static string[] Bck = {"Up","Up","Up","Up"};
-	public static string[] LB = {"Up","Up","Up","Up"};
-	public static string[] RB = {"Up","Up","Up","Up"};
-	public static string[] A = {"Up","Up","Up","Up"};
-	public static string[] B = {"Up","Up","Up","Up"};
-	public static string[] X = {"Up","Up","Up","Up"};
-	public static string[] Y = {"Up","Up","Up","Up"};
-	public static string[] LS = {"Up","Up","Up","Up"};
-	public static string[] RS = {"Up","Up","Up","Up"};
-	public static float[] LHor = {0,0,0,0};
-	public static float[] LVert = {0,0,0,0};
-	public static float[] RHor = {0,0,0,0};
-	public static float[] RVert = {0,0,0,0};
+	public static float[] LT = {0,0,0,0,0};
+	public static float[] RT = {0,0,0,0,0};
+	public static string[] DUp = {"Up","Up","Up","Up", "Up"};
+	public static string[] DRight = {"Up","Up","Up","Up","Up"};
+	public static string[] DDown = {"Up","Up","Up","Up","Up"};
+	public static string[] DLeft = {"Up","Up","Up","Up","Up"};
+	public static string[] Strt = {"Up","Up","Up","Up","Up"};
+	public static string[] Bck = {"Up","Up","Up","Up","Up"};
+	public static string[] LB = {"Up","Up","Up","Up","Up"};
+	public static string[] RB = {"Up","Up","Up","Up","Up"};
+	public static string[] A = {"Up","Up","Up","Up","Up"};
+	public static string[] B = {"Up","Up","Up","Up","Up"};
+	public static string[] X = {"Up","Up","Up","Up","Up"};
+	public static string[] Y = {"Up","Up","Up","Up","Up"};
+	public static string[] LS = {"Up","Up","Up","Up","Up"};
+	public static string[] RS = {"Up","Up","Up","Up","Up"};
+	public static float[] LHor = {0,0,0,0,0};
+	public static float[] LVert = {0,0,0,0,0};
+	public static float[] RHor = {0,0,0,0,0};
+	public static float[] RVert = {0,0,0,0,0};
 
+	public string[] AllStateNames;
+	
 	GamePadState State;
 	
 	public static bool AnythingPressed;
 	
     void Update() {
+		
+		//GlobalInput
+		LT[0] = LT[1]+LT[2]+LT[3]+LT[4];
+		RT[0] = RT[1]+RT[3]+RT[3]+RT[4];
+		LHor[0] = LHor[1]+LHor[2]+LHor[3]+LHor[4];
+		LVert[0] = LVert[1]+LVert[2]+LVert[3]+LVert[4];
+		RHor[0] = RHor[1]+RHor[2]+RHor[4]+RHor[4];
+		RVert[0] = RVert[1]+RVert[2]+RVert[3]+RVert[4];
+		
+		for (int i = 0; i < AllStateNames.Length; i++) {
+			bool isPressed = false;
+			bool isReleased = false;
+			bool isDown = false;
+			for (int n = 1; n < 5; n++) {
+				if (((string[])this.GetType().GetField(AllStateNames[i]).GetValue(this))[n] == "Pressed") {
+					isPressed = true;
+				}
+				if (((string[])this.GetType().GetField(AllStateNames[i]).GetValue(this))[n] == "Released") {
+					isReleased = true;
+				}
+				if (((string[])this.GetType().GetField(AllStateNames[i]).GetValue(this))[n] == "Down") {
+					isDown = true;
+				}
+			}
+			
+			if (isPressed) {
+				((string[])this.GetType().GetField(AllStateNames[i]).GetValue(this))[0] = "Pressed";
+			} else if (isReleased) {
+				((string[])this.GetType().GetField(AllStateNames[i]).GetValue(this))[0] = "Released";
+			} else if (isDown) {
+				((string[])this.GetType().GetField(AllStateNames[i]).GetValue(this))[0] = "Down";
+			} else {
+				((string[])this.GetType().GetField(AllStateNames[i]).GetValue(this))[0] = "Up";
+			}
+		}
 
 		AnythingPressed = false;
 	
-		for (int i = 0; i < 4; i++) {
+		for (int i = 1; i < 5; i++) {
 			
 			PlayerIndex Index = (PlayerIndex)i;
 			

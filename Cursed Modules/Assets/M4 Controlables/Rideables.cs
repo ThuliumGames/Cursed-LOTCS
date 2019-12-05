@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class Rideables : MonoBehaviour {
 	
-	public float[] Speeds;
-	public float TurnSpeed;
 	public Vector3 Offset;
 	public bool Riding;
 	public float PlayerMass;
-	GameObject Player;
+	public GameObject Player;
 	
 	public void GetOn () {
 		Player = GameObject.Find("Player");
@@ -17,7 +15,7 @@ public class Rideables : MonoBehaviour {
 			Riding = true;
 			GlobVars.Reading = true;
 			Player.GetComponent<Movement>().enabled = false;
-			Player.GetComponent<Animator>().enabled = false;
+			Player.GetComponent<Animator>().SetBool("Riding", true);
 			Player.transform.position = transform.position + Offset;
 			Player.transform.rotation = transform.rotation;
 			Player.transform.parent = this.gameObject.transform;

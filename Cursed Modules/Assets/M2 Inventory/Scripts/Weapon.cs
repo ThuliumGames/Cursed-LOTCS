@@ -12,6 +12,11 @@ public class Weapon : ItemObject {
 	float T = 0;
 	
 	void LateUpdate () {
-		GetComponentInParent<Animator>().runtimeAnimatorController = AOC;
+		if (AOC != null) {
+			GetComponentInParent<Animator>().runtimeAnimatorController = AOC;
+			if (GetComponentInParent<Movement>()) {
+				GetComponentInParent<Movement>().AttackCollider = GetComponentInChildren<Collider>();
+			}
+		}
 	}
 }

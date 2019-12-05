@@ -18,8 +18,11 @@ public class ItemMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	
 	bool inside;
 	
+	GameObject IN;
+	
 	void Start () {
 		DI = GetComponentInParent<DisplayInventory>().Inv;
+		IN = GameObject.Find ("Item Name");
 	}
 	
 	void Update () {
@@ -30,7 +33,7 @@ public class ItemMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 		if (SSInput.A[0] == "Pressed" && inside && (GetComponentInChildren<Image>().sprite != null || Place >= 6)) {
 			Click();
 		}
-		GameObject.Find ("Item Name").transform.localPosition = Input.mousePosition-new Vector3(Screen.width/2, (Screen.height/2)-100, 0);
+		IN.transform.localPosition = Input.mousePosition-new Vector3(Screen.width/2, (Screen.height/2)-100, 0);
 	}
 	
 	public void OnPointerEnter (PointerEventData eventData) {
@@ -39,31 +42,31 @@ public class ItemMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 		if (Place < 6) {
 			
 			if (Place == 0 && DI.BackItems[Slot].item != null) {
-				GameObject.Find ("Item Name").GetComponent<Text>().text = DI.BackItems[Slot].item.name;
+				IN.GetComponent<Text>().text = DI.BackItems[Slot].item.name;
 			}
 			
 			if (Place == 1 && DI.SideItems[Slot].item != null) {
-				GameObject.Find ("Item Name").GetComponent<Text>().text = DI.SideItems[Slot].item.name;
+				IN.GetComponent<Text>().text = DI.SideItems[Slot].item.name;
 			}
 			
 			if (Place == 2 && DI.BackpackItems[Slot].item != null) {
-				GameObject.Find ("Item Name").GetComponent<Text>().text = DI.BackpackItems[Slot].item.name;
+				IN.GetComponent<Text>().text = DI.BackpackItems[Slot].item.name;
 			}
 			
 			if (Place == 3 && DI.ArmorL[Slot].item != null) {
-				GameObject.Find ("Item Name").GetComponent<Text>().text = DI.ArmorL[Slot].item.name;
+				IN.GetComponent<Text>().text = DI.ArmorL[Slot].item.name;
 			}
 			
 			if (Place == 4 && DI.ArmorC[Slot].item != null) {
-				GameObject.Find ("Item Name").GetComponent<Text>().text = DI.ArmorC[Slot].item.name;
+				IN.GetComponent<Text>().text = DI.ArmorC[Slot].item.name;
 			}
 			
 			if (Place == 5 && DI.ArmorM[Slot].item != null) {
-				GameObject.Find ("Item Name").GetComponent<Text>().text = DI.ArmorM[Slot].item.name;
+				IN.GetComponent<Text>().text = DI.ArmorM[Slot].item.name;
 			}
 			
 		} else {
-			GameObject.Find ("Item Name").GetComponent<Text>().text = "";
+			IN.GetComponent<Text>().text = "";
 		}
 	}
 	
