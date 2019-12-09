@@ -17,11 +17,10 @@ public class AudioZone : MonoBehaviour {
 	
 	Transform Player;
 	
-	void Start () {
-		Player = GameObject.Find("Player").transform;
-	}
-	
 	void Update () {
+		
+		Player = GlobVars.CurrentPlayer.transform;
+		
 		if (!isMaster) {
 			Vector3 Tmp = transform.InverseTransformPoint(Player.position);
 			bool NoOther = true;

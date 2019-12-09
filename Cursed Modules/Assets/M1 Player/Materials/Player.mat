@@ -10,11 +10,11 @@ Material:
   m_Name: Player
   m_Shader: {fileID: -6465566751694194690, guid: e8e5476669ae20b408d6418faa4bc631,
     type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _DOUBLESIDED_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_DoubleSidedGI: 1
+  m_CustomRenderQueue: 2000
   stringTagMap:
     MotionVector: User
   disabledShaderPasses:
@@ -27,7 +27,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_3E88DB35:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: beeb87928fabf924b926db5f6746c5cb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _AnisotropyMap:
@@ -250,8 +250,8 @@ Material:
     - _CarPaint2_FlakeTiling: 1
     - _CarPaint2_LobeCount: 0
     - _CoatMask: 0.005
-    - _CullMode: 2
-    - _CullModeForward: 2
+    - _CullMode: 0
+    - _CullModeForward: 0
     - _Cutoff: 0.5
     - _DepthOffsetEnable: 0
     - _DetailAlbedoScale: 1
@@ -278,7 +278,7 @@ Material:
     - _DistortionSrcBlend: 1
     - _DistortionVectorBias: -1
     - _DistortionVectorScale: 2
-    - _DoubleSidedEnable: 0
+    - _DoubleSidedEnable: 1
     - _DoubleSidedNormalMode: 1
     - _Drag: 1
     - _DstBlend: 0
@@ -329,9 +329,9 @@ Material:
     - _PPDPrimitiveWidth: 1
     - _Parallax: 0.02
     - _PreRefractionPass: 0
-    - _ReceivesSSR: 1
+    - _ReceivesSSR: 0
     - _RefractionModel: 0
-    - _RenderQueueType: 5
+    - _RenderQueueType: 1
     - _RequireSplitLighting: 0
     - _SSRefractionProjectionModel: 0
     - _SVBRDF_BRDFType: 0
@@ -351,7 +351,7 @@ Material:
     - _StencilRef: 0
     - _StencilRefDepth: 32
     - _StencilRefDistortionVec: 64
-    - _StencilRefGBuffer: 2
+    - _StencilRefGBuffer: 1
     - _StencilRefMV: 160
     - _StencilWriteMask: 3
     - _StencilWriteMaskDepth: 48
@@ -393,18 +393,18 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_52615C17: {r: 0.9811321, g: 0.61552155, b: 0.61552155, a: 1}
-    - Color_A0DCB7C1: {r: 0.754717, g: 0.52331793, b: 0.52331793, a: 1}
+    - Color_A0DCB7C1: {r: 0.7574023, g: 0.745105, b: 0.9811321, a: 1}
     - Color_C0736BA6: {r: 1, g: 1, b: 1, a: 1}
     - Color_C2ECCC03: {r: 0.9339623, g: 0.5272621, b: 0.44495374, a: 1}
-    - Vector2_5B8F021C: {r: 0, g: 0, b: 0, a: 0}
+    - Vector2_5B8F021C: {r: 1, g: 1, b: 0, a: 0}
     - Vector2_DFD6C91D: {r: 0, g: 0, b: 0, a: 0}
-    - _BaseColor: {r: 0.9433962, g: 0.80096257, b: 0.6185475, a: 1}
+    - _BaseColor: {r: 0.7075472, g: 0.6078649, b: 0.48393556, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _CarPaint2_BRDFColorMapUVScale: {r: 1, g: 1, b: 0, a: 0}
     - _CarPaint2_CTCoeffs: {r: 1, g: 1, b: 1, a: 1}
     - _CarPaint2_CTF0s: {r: 1, g: 1, b: 1, a: 1}
     - _CarPaint2_CTSpreads: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.9433962, g: 0.80096257, b: 0.6185475, a: 1}
+    - _Color: {r: 0.7075471, g: 0.6078649, b: 0.48393553, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}

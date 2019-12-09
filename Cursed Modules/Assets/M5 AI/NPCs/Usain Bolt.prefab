@@ -1152,6 +1152,7 @@ GameObject:
   - component: {fileID: 3693531808627235658}
   - component: {fileID: -2629587528921008947}
   - component: {fileID: 1417445925964711046}
+  - component: {fileID: -2908013123718555848}
   m_Layer: 8
   m_Name: Usain Bolt
   m_TagString: Untagged
@@ -1228,6 +1229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Anim: {fileID: 3693531808627235655}
+  AOC: {fileID: 22100000, guid: 0db55f0bcdda45b439384be1c246f872, type: 2}
   NMA: {fileID: 3693531808627235658}
   NPCmaster: {fileID: 0}
 --- !u!195 &3693531808627235658
@@ -1251,7 +1253,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 2
 --- !u!114 &-2629587528921008947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1309,6 +1311,26 @@ MonoBehaviour:
       BoolInput: 
       IntInput: 
       FloatInput: []
+  TextToRead: 0
+--- !u!114 &-2908013123718555848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3693531808627235657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 638078d262b257d41893a501a22bc010, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Wound: 0
+  BaseResistance: 10
+  RecoveryTime: 60
+  HurtLayer: 10
+  T: 0
+  isPlayer: 0
+  Graphics: []
 --- !u!1 &3833814074537724971
 GameObject:
   m_ObjectHideFlags: 0
@@ -2116,7 +2138,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4718159592237634492}
   - component: {fileID: 5997285672780357843}
-  - component: {fileID: 5610584994804942759}
   m_Layer: 8
   m_Name: Audio Source
   m_TagString: Untagged
@@ -2149,7 +2170,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2fb00ee1d784da2468d7a220ef725ef5, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -2159,9 +2180,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 50
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -2169,23 +2190,50 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.1
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -10.0039835
+      outSlope: -10.0039835
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.2
+      value: 0.5
+      inSlope: -2.5009959
+      outSlope: -2.5009959
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.39473572
+      value: 0.15705872
+      inSlope: -0.62524897
+      outSlope: -0.62524897
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.8
+      value: 0.01550293
+      inSlope: -0.15631224
+      outSlope: -0.15631224
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.10003988
+      outSlope: -0.10003988
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -2234,22 +2282,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5610584994804942759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5126665590667811405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d49f554e3d2ebb47b39f7af687a98f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isMaster: 0
-  Rectangular: 0
-  Size: {x: 30, y: 0, z: 0}
-  SwitchSpeed: 10
 --- !u!1 &5170663378054076291
 GameObject:
   m_ObjectHideFlags: 0

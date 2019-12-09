@@ -22,9 +22,9 @@ public class EnemyAI : MonoBehaviour {
 	}
 	
 	void Update () {
-		if (Vector3.Distance (transform.position, GameObject.Find("Player").transform.position) < 20) {
-			NMA.SetDestination(GameObject.Find("Player").transform.position);
-			if (Vector3.Distance (transform.position, GameObject.Find("Player").transform.position) < 3) {
+		if (Vector3.Distance (transform.position, GlobVars.CurrentPlayer.transform.position) < 20) {
+			NMA.SetDestination(GlobVars.CurrentPlayer.transform.position);
+			if (Vector3.Distance (transform.position, GlobVars.CurrentPlayer.transform.position) < 3) {
 				if (Physics.BoxCast ((transform.position+transform.up), new Vector3 (0.125f, 1, 0.125f), transform.forward, Quaternion.Euler (Vector3.zero), 3f, LM)) {
 					if (!Attacking && coolDown <= 0) {
 						Attacking = true;

@@ -791,6 +791,7 @@ MonoBehaviour:
   BaseResistance: 5
   RecoveryTime: 60
   HurtLayer: 9
+  T: 0
   isPlayer: 0
   Graphics: []
 --- !u!195 &1202659603220912114
@@ -814,7 +815,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 2
 --- !u!1 &1203763784450510599
 GameObject:
   m_ObjectHideFlags: 0

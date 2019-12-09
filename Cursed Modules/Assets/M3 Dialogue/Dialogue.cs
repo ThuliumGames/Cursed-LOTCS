@@ -64,7 +64,7 @@ public class Dialogue : MonoBehaviour {
 	[Header("")]
 	public SubArray[] DialogueVariables;
 	
-	int TextToRead = 0;
+	public int TextToRead = 0;
 	int AmOfAns = -1;
 	Vector3 OrigCamPos;
 	bool isMoving;
@@ -235,22 +235,49 @@ public class Dialogue : MonoBehaviour {
 		foreach (char C in DialogueVariables[TextToRead].Text) {
 			++Skip;
 			if (C == '[') {
-				DontFin = true;
-				yield return new WaitForSeconds (DialogueVariables[TextToRead].TimedEnd);
-				DoneReading = false;
-				DoneTalking = false;
-				if (DialogueVariables[TextToRead].CodeToExecute.Length > 0) {
-					if (DialogueVariables[TextToRead].CodeToExecute[0].Command == "TestForItem" && DialogueVariables[TextToRead].FoundItem) {
-						GameObject.FindObjectOfType<Inventory>().RemoveItem(DialogueVariables[TextToRead].CodeToExecute[0].StringInput[0]);
-						TextToRead = DialogueVariables[TextToRead].NextTextIfTrue;
+				if (DialogueVariables[TextToRead].Text.ToCharArray()[Skip] == '_') {
+					DontFin = true;
+					yield return new WaitForSeconds (Mathf.Abs(DialogueVariables[TextToRead].TimedEnd));
+					DoneReading = false;
+					DoneTalking = false;
+					if (WaitForInput) {
+						Exe (DialogueVariables[TextToRead].CodeToExecute.Length-1);
+						WaitForInput = false;
+					}
+					if (DialogueVariables[TextToRead].CodeToExecute.Length > 0) {
+						if (DialogueVariables[TextToRead].CodeToExecute[0].Command == "TestForItem" && DialogueVariables[TextToRead].FoundItem) {
+							GameObject.FindObjectOfType<Inventory>().RemoveItem(DialogueVariables[TextToRead].CodeToExecute[0].StringInput[0]);
+							TextToRead = DialogueVariables[TextToRead].NextTextIfTrue;
+						} else {
+							TextToRead = DialogueVariables[TextToRead].NextText;
+						}
 					} else {
 						TextToRead = DialogueVariables[TextToRead].NextText;
 					}
+					DialogueCanvas.gameObject.SetActive(false);
+					Writing = false;
+					StopInteract = true;
+					GlobVars.Reading = false;
+					GoToNext.SetActive(false);
+					isMoving = false;
 				} else {
-					TextToRead = DialogueVariables[TextToRead].NextText;
+					DontFin = true;
+					yield return new WaitForSeconds (Mathf.Abs(DialogueVariables[TextToRead].TimedEnd));
+					DoneReading = false;
+					DoneTalking = false;
+					if (DialogueVariables[TextToRead].CodeToExecute.Length > 0) {
+						if (DialogueVariables[TextToRead].CodeToExecute[0].Command == "TestForItem" && DialogueVariables[TextToRead].FoundItem) {
+							GameObject.FindObjectOfType<Inventory>().RemoveItem(DialogueVariables[TextToRead].CodeToExecute[0].StringInput[0]);
+							TextToRead = DialogueVariables[TextToRead].NextTextIfTrue;
+						} else {
+							TextToRead = DialogueVariables[TextToRead].NextText;
+						}
+					} else {
+						TextToRead = DialogueVariables[TextToRead].NextText;
+					}
+					StartCoroutine(Write ());
+					Writing = true;
 				}
-				StartCoroutine(Write ());
-				Writing = true;
 			} else {
 				if (C == '_') {
 					DoneTalking = true;
@@ -331,7 +358,6 @@ public class Dialogue : MonoBehaviour {
 		}
 		
 		if (isQuest) {
-			AnsWrite.text = "<color=#00000000>";
 			foreach (char C in DialogueVariables[TextToRead].AnsText) {
 				if (AmOfAns == -1) {
 					AmOfAns = (int)(C)-48;
@@ -340,6 +366,8 @@ public class Dialogue : MonoBehaviour {
 						AnsWrite.text += "\n";
 					} else if (C == ')') {
 						AnsWrite.text += C + "</color>";
+					} else if (C == '(') {
+						AnsWrite.text += C + "<color=#00000000>";
 					} else {
 						AnsWrite.text += C;
 					}
@@ -348,7 +376,7 @@ public class Dialogue : MonoBehaviour {
 		}
 		
 		if (!DontFin) {
-			yield return new WaitForSeconds (DialogueVariables[TextToRead].TimedEnd);
+			yield return new WaitForSeconds (Mathf.Abs(DialogueVariables[TextToRead].TimedEnd));
 			GoToNext.SetActive(true);
 			DoneReading = true;
 		}

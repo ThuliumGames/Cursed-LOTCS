@@ -45,9 +45,9 @@ public class DisplayInventory : MonoBehaviour {
 			GetCursorPos(out cursorPos);
 			
 			if (SSInput.LS[0] == "Down") {
-				SetCursorPos(cursorPos.x+(int)(Mathf.Clamp(SSInput.LHor[0]*0.707f*50, -50, 50)), cursorPos.y-(int)(Mathf.Clamp(SSInput.LVert[0]*0.707f*50, -50, 50)));
+				SetCursorPos(cursorPos.x+(int)(Mathf.Clamp(SSInput.LHor[0]*0.707f*3000*Time.deltaTime, -50, 50)), cursorPos.y-(int)(Mathf.Clamp(SSInput.LVert[0]*0.707f*3000*Time.deltaTime, -50, 50)));
 			} else {
-				SetCursorPos(cursorPos.x+(int)(Mathf.Clamp(SSInput.LHor[0]*0.707f*10, -10, 10)), cursorPos.y-(int)(Mathf.Clamp(SSInput.LVert[0]*0.707f*10, -100, 100)));
+				SetCursorPos(cursorPos.x+(int)(Mathf.Clamp(SSInput.LHor[0]*0.707f*600*Time.deltaTime, -10, 10)), cursorPos.y-(int)(Mathf.Clamp(SSInput.LVert[0]*0.707f*600*Time.deltaTime, -100, 100)));
 			}
 			
 			if (SSInput.RB[0] == "Pressed") {

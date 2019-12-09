@@ -96,7 +96,7 @@ public class Ladder : MonoBehaviour {
 	}
 	
 	public void Climb () {
-		Player = GameObject.Find("Player");
+		Player = GlobVars.CurrentPlayer;
 		if (GlobVars.InteractObject == this.gameObject) {
 			Climbing = true;
 			GlobVars.Reading = true;

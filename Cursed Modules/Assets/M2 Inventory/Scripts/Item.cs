@@ -20,4 +20,6 @@ public class Item : ScriptableObject {
 	public int StackSize = 1;
 	
 	public string[] MenuOptions;
+	
+	public string UseCustom;
 }

@@ -117,7 +117,7 @@ public class Inventory : MonoBehaviour {
 					}
 				}
 				if (!Placed) {
-					GameObject G = Instantiate (I.Model, GameObject.Find("Player").transform.position, Quaternion.identity);
+					GameObject G = Instantiate (I.Model, GlobVars.CurrentPlayer.transform.position, Quaternion.identity);
 					G.AddComponent<Rigidbody>();
 				}
 			}

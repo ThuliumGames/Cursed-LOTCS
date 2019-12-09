@@ -24,7 +24,16 @@ public class CamControl : MonoBehaviour {
 	
 	void LateUpdate () {
 		
+		ObjToFollow = GlobVars.CurrentPlayer.transform;
+		
 		if (!GlobVars.Paused) {
+			
+			if (ObjToFollow.GetComponent<Animator>().GetBool("Crouching")) {
+				Up = 1;
+			} else {
+				Up = 1.75f;
+			}
+			
 			GameObject G = new GameObject();
 			if (FollowSpeed > 0) {
 				G.transform.position = Vector3.Lerp (Pre, ObjToFollow.position, FollowSpeed*Time.deltaTime);
@@ -36,10 +45,24 @@ public class CamControl : MonoBehaviour {
 			if (ObjToFollow.GetComponent<Animator>().GetBool("isTargeting")) {
 				transform.rotation = Quaternion.Lerp(transform.rotation, ObjToFollow.rotation, 10*Time.deltaTime);
 			} else {
+				
+				if (SSInput.B[0] == "Down") {
+					transform.Rotate (0, (SSInput.LHor[0]*50)*Time.deltaTime, 0);
+				}
+				
 				transform.Rotate (0, ((SSInput.RHor[0]*(100*(TimePressed+0.5f))))*Time.deltaTime, 0);
 				transform.eulerAngles = new Vector3 (0, transform.eulerAngles.y, 0);
 			}
 			transform.Translate (0, Up, -Back);
+		
+			if (SSInput.B[0] == "Down") {
+				if (ObjToFollow.InverseTransformPoint(transform.position).z <= 0) {
+					UpDown -= (UpDown-(-ObjToFollow.GetComponent<Animator>().GetFloat("Slope")*180))*Time.deltaTime;
+				} else {
+					UpDown -= (UpDown-(ObjToFollow.GetComponent<Animator>().GetFloat("Slope")*180))*Time.deltaTime;
+				}
+			}
+			
 			UpDown += -SSInput.RVert[0]*(100*(TimePressed+0.5f))*Time.deltaTime;
 			UpDown = Mathf.Clamp (UpDown, Min, Max);
 			transform.RotateAround (ObjToFollow.position+new Vector3 (0,1,0), transform.right, UpDown);

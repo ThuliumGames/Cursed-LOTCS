@@ -9,6 +9,7 @@ public class Movement : MonoBehaviour {
 	
 	public Transform Cam;
 	public Animator Anim;
+	public Animator FollowerAnim;
 	public AudioSource Voice;
 	public AudioClip[] VoiceClips;
 	public Transform HeadLook;
@@ -16,6 +17,7 @@ public class Movement : MonoBehaviour {
 	public Transform Head;
 	public Transform LFoot;
 	public Transform RFoot;
+	CapsuleCollider[] PlayerColliders;
 	float Angle;
 	
 	public float Acceleration;
@@ -26,7 +28,9 @@ public class Movement : MonoBehaviour {
 	public float maxStamina;
 	float minStamina;
 	float Stamina;
+	float Curse;
 	public Image StamIma;
+	public Image CurseIma;
 	public Transform TargetImage;
 	
 	Vector3 Pos;
@@ -57,36 +61,52 @@ public class Movement : MonoBehaviour {
 	[HideInInspector]
 	public Collider AttackCollider;
 	public Collider FistCollider;
+	bool DoAttack;
 	Health WasClosAI;
 	public List<Health> CantTarget;
 	float ResetTargets;
+	bool CanAir;
+	float TimePressingLS;
 	
 	void Start () {
 		RB = GetComponent<Rigidbody>();
 		Stamina = maxStamina;
 		CantTarget = new List<Health>();
+		System.Array.Resize(ref PlayerColliders, 3);
+		PlayerColliders[0] = GetComponents<CapsuleCollider>()[0];
+		PlayerColliders[1] = GetComponents<CapsuleCollider>()[1];
+		PlayerColliders[2] = FollowerAnim.GetComponent<CapsuleCollider>();
 	}
 	
 	void Update () {
-		
 		RB = GetComponent<Rigidbody>();
 
 		GetComponent<Animator>().SetFloat ("ReverseAnim", 1);
 		
 		//Reset Attack Anim
 		if (!GetComponentInChildren<Weapon>()) {
-			GetComponentInParent<Animator>().runtimeAnimatorController = AOC;
+			if (!GetComponentInParent<Animator>().GetBool ("isCut")) {
+				GetComponentInParent<Animator>().runtimeAnimatorController = AOC;
+			}
 			AttackCollider = FistCollider;
 		} else {
 			FistCollider.enabled = false;
 		}
 		
-		if (Anim.GetBool("Attacking")) {
+		if (Anim.GetBool("Attacking") && DoAttack) {
+			if (!AttackCollider.enabled) {
+				if (GetComponentInChildren<Weapon>()) {
+					if (GetComponentInChildren<Weapon>().gameObject.tag == "CrystalSabre") {
+						Curse++;
+					}
+				}
+			}
 			AttackCollider.enabled = true;
 		} else {
+			DoAttack = false;
 			AttackCollider.enabled = false;
 		}
-		if (!GlobVars.Paused) {
+		if (!GlobVars.Paused && !Anim.GetBool("isDying")) {
 			
 			if (Jumped) {
 				Jumped = false;
@@ -134,6 +154,36 @@ public class Movement : MonoBehaviour {
 				
 				//Moving
 				if (Anim.GetBool("OnGround")) {
+					if (!Physics.BoxCast ((transform.position+(transform.up/2)), new Vector3 (0.25f, 0.1f, 0.25f), Vector3.up, Quaternion.Euler (Vector3.zero), 1, LM)) {
+						if (SSInput.LS[0] == "Pressed") {
+							Anim.SetBool("Crouching", !Anim.GetBool("Crouching"));
+						}
+					} else {
+						Anim.SetBool("Crouching", true);
+					}
+					if (!Physics.BoxCast ((FollowerAnim.transform.position+(FollowerAnim.transform.up/2)), new Vector3 (0.25f, 0.1f, 0.25f), Vector3.up, Quaternion.Euler (Vector3.zero), 1, LM)) {
+						FollowerAnim.SetBool("Crouching", Anim.GetBool("Crouching"));
+					} else {
+						FollowerAnim.SetBool("Crouching", true);
+					}
+					if (Anim.GetBool("Crouching")) {
+						if (SSInput.LS[0] == "Down") {
+							TimePressingLS += Time.deltaTime;
+						} else {
+							TimePressingLS = 0;
+						}
+						
+						foreach (CapsuleCollider Coll in PlayerColliders) {
+							Coll.height = 0.5f;
+							Coll.center = new Vector3 (0, 0.5f, 0);
+						}
+					} else {
+						TimePressingLS = 0;
+						foreach (CapsuleCollider Coll in PlayerColliders) {
+							Coll.height = 2;
+							Coll.center = new Vector3 (0, 1f, 0);
+						}
+					}
 					if ((Mathf.Abs (SSInput.LHor[0]) > 0.05f || Mathf.Abs (SSInput.LVert[0]) > 0.05f)) {
 						if (!Anim.GetBool("isTargeting")) {
 							Anim.SetFloat("HSpeed", Mathf.Lerp (Anim.GetFloat("HSpeed"), 0, 10*Time.deltaTime));
@@ -157,7 +207,12 @@ public class Movement : MonoBehaviour {
 					}
 					
 					if (!Anim.GetBool("Attacking")) {
-						transform.rotation = Quaternion.Lerp(transform.rotation, HeadLookRot.rotation, TurnSpeed/(((Anim.GetFloat("VSpeed")*10)+1)/10)*Time.deltaTime);
+						transform.rotation = Quaternion.Lerp(transform.rotation, HeadLookRot.rotation, TurnSpeed/(((Mathf.Abs(Anim.GetFloat("VSpeed"))*10)+1)/10)*Time.deltaTime);
+					}
+				} else {
+					foreach (CapsuleCollider Coll in PlayerColliders) {
+						Coll.height = 2;
+						Coll.center = new Vector3 (0, 1f, 0);
 					}
 				}
 				//Rotation
@@ -277,10 +332,13 @@ public class Movement : MonoBehaviour {
 			Slope = 1 - Hit.normal.y;
 			if (Hit.distance < 1.75f && Slope < 0.6f && CanOG) {
 				if (Anim.GetFloat ("YVel") < -25) {
+					this.GetComponent<Health>().Wound += 5;
 					Ragdoll = true;
 					RDT = 5;
 					Anim.SetFloat("YVel", 0);
 					return;
+				} else if (Anim.GetFloat("YVel") < -17) {
+					this.GetComponent<Health>().Wound += 2;
 				}
 				if (Anim.GetBool("OnGround")) {
 					Anim.SetFloat("YVel", 0);
@@ -295,61 +353,65 @@ public class Movement : MonoBehaviour {
 				Gtmp.transform.position = transform.position;
 				Gtmp.transform.LookAt (transform.position + Hit.normal);
 				Gtmp.transform.Translate(0, 0, 1);
-				print (Slope);
-				Anim.SetFloat ("Slope", Slope*-Mathf.Clamp(transform.InverseTransformPoint(Gtmp.transform.position).z, -1, 0));
+				Anim.SetFloat ("Slope", Slope*-Mathf.Clamp(transform.InverseTransformPoint(Gtmp.transform.position).z, -1, 1));
 				Destroy(Gtmp);
 				RB.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
 				transform.position = new Vector3 (transform.position.x, Hit.point.y, transform.position.z);
 				if (!GlobVars.PlayerPaused) {
 					if (SSInput.Y[0] == "Pressed" && Stamina > minStamina) {
-						RB.constraints = RigidbodyConstraints.FreezeRotation;
-						transform.eulerAngles = new Vector3 (0, Angle, 0);
-						Jumped = true;
-						CanOG = false;
-						Stamina -= 0.5f+(Anim.GetFloat("Slope")*10);
-						RB.velocity = new Vector3 (RB.velocity.x, 5, RB.velocity.z);
-						LockNum = RB.velocity.y;
-						PlayASound(VoiceClips[0]);
+						if (!Physics.BoxCast ((transform.position+(transform.up/2)), new Vector3 (0.25f, 0.1f, 0.25f), Vector3.up, Quaternion.Euler (Vector3.zero), 1, LM)) {
+							RB.constraints = RigidbodyConstraints.FreezeRotation;
+							transform.eulerAngles = new Vector3 (0, Angle, 0);
+							Jumped = true;
+							CanOG = false;
+							if (Anim.GetBool("Crouching") && TimePressingLS > 1) {
+								Stamina -= 2+(Anim.GetFloat("Slope")*10);
+								RB.velocity = new Vector3 (RB.velocity.x, 9, RB.velocity.z);
+								Anim.SetBool("Crouching", false);
+							} else {
+								Stamina -= 0.5f+(Anim.GetFloat("Slope")*10);
+								RB.velocity = new Vector3 (RB.velocity.x, 5, RB.velocity.z);
+							}
+							LockNum = RB.velocity.y;
+							PlayASound(VoiceClips[0]);
+						}
 					}
 				}
 			} else {
 				Anim.SetFloat("YVel", RB.velocity.y);
-				/*if (Slope >= 0.6f && Hit.distance < 2f) {
-					Anim.SetBool("Slide", true);
-					Anim.SetFloat("VSpeed", 0);
-					Anim.SetFloat("HSpeed", 0);
-					GameObject Gtmp = new GameObject();
-					Gtmp.transform.position = transform.position;
-					Gtmp.transform.LookAt (transform.position + Hit.normal);
-					transform.LookAt (transform.position+new Vector3(Gtmp.transform.up.x, 0, Gtmp.transform.up.z));
-					transform.position = new Vector3 (transform.position.x, Hit.point.y, transform.position.z);
-					transform.Translate(transform.forward*-10*Time.deltaTime);
-					Destroy(Gtmp);
-				} else {
-					Anim.SetBool("Slide", false);
-				}*/
 				Anim.SetBool("OnGround", false);
 				RB.constraints = RigidbodyConstraints.FreezeRotation;
 				RaycastHit Hit1;
 				if (Physics.BoxCast ((transform.position+transform.up*2), new Vector3 (0.25f, 0.25f, 0.25f), transform.forward, out Hit1, Quaternion.Euler (Vector3.zero), 0.25f, LM)) {
 					Anim.SetFloat("VSpeed", 0);
 					Anim.SetFloat("HSpeed", 0);
-				} else if (Physics.BoxCast ((transform.position+transform.up*0.5f), new Vector3 (0.25f, 0.25f, 0.25f), transform.forward, out Hit1, Quaternion.Euler (Vector3.zero), 0.25f, LM)) {
-					RB.velocity = new Vector3 (RB.velocity.x, LockNum-(Time.deltaTime*10), RB.velocity.z);
+				} else {
+					Anim.SetFloat("VSpeed", Anim.GetFloat("VSpeed")-(Mathf.Clamp (Anim.GetFloat("VSpeed")*1000, -1, 1)*Time.deltaTime));
+					Anim.SetFloat("HSpeed", Anim.GetFloat("HSpeed")-(Mathf.Clamp (Anim.GetFloat("HSpeed")*1000, -1, 1)*Time.deltaTime));
+					if (Physics.BoxCast ((transform.position+transform.up*0.5f), new Vector3 (0.25f, 0.25f, 0.25f), transform.forward, out Hit1, Quaternion.Euler (Vector3.zero), 0.25f, LM)) {
+						RB.velocity = new Vector3 (RB.velocity.x, LockNum-(Time.deltaTime*7), RB.velocity.z);
+					}
 				}
-				GameObject GetCamRot = new GameObject();
-				GetCamRot.transform.position = transform.position;
-				GetCamRot.transform.LookAt (transform.position + new Vector3 (Cam.forward.x, 0, Cam.forward.z));
-				GetCamRot.transform.Translate(SSInput.LHor[0], 0, SSInput.LVert[0]);
-				Anim.SetFloat("VSpeed", Anim.GetFloat("VSpeed")+(transform.InverseTransformPoint(GetCamRot.transform.position).z*(Acceleration/8))*Time.deltaTime);
-				Destroy(GetCamRot);
 				
+				if (CanAir) {
+					GameObject GetCamRot = new GameObject();
+					GetCamRot.transform.position = transform.position;
+					GetCamRot.transform.LookAt (transform.position + new Vector3 (Cam.forward.x, 0, Cam.forward.z));
+					GetCamRot.transform.Translate(SSInput.LHor[0], 0, SSInput.LVert[0]);
+					Anim.SetFloat("VSpeed", Anim.GetFloat("VSpeed")+(transform.InverseTransformPoint(GetCamRot.transform.position).z*(Acceleration/8))*Time.deltaTime);
+					Destroy(GetCamRot);
+				}
 				RB.velocity = new Vector3 (RB.velocity.x, Mathf.Clamp(RB.velocity.y, -53, Mathf.Clamp (LockNum, -53.1f, Mathf.Infinity)), RB.velocity.z);
 				if (RB.velocity.y < LockNum) {
-					LockNum = RB.velocity.y-(Time.deltaTime*4.9f);
+					LockNum = RB.velocity.y;
 				}
 			}
 		} else {
+			
+			if (Anim.GetBool("isDying")) {
+				Invoke ("Lose", 5);
+			}
+			
 			//Maintain Velocity When Paused
 			if (!WasPaused) {
 				PrevVel = RB.velocity;
@@ -368,7 +430,17 @@ public class Movement : MonoBehaviour {
 			minStamina = maxStamina-0.1f;
 			StamIma.color = Color.red;
 		}
-		StamIma.transform.localScale = new Vector3 (Stamina/maxStamina, 1, 1);
+		StamIma.fillAmount = Stamina/maxStamina;
+		
+		//Display Curse
+		Curse = Mathf.Clamp (Curse, 0, 50);
+		CurseIma.fillAmount = Curse/50;
+		
+		CanAir = true;
+	}
+	
+	void OnCollisionStay () {
+		CanAir = false;
 	}
 	
 	void OnAnimatorIK (int LayerIndex) {
@@ -420,6 +492,11 @@ public class Movement : MonoBehaviour {
 		}
 	}
 	
+	public void YAtt () {
+		//For The Animator To Reset Values
+		DoAttack = true;
+	}
+	
 	void PlayGroundSound () {
 		GetComponent<AudioSource>().Play();
 	}
@@ -427,5 +504,27 @@ public class Movement : MonoBehaviour {
 	void PlayASound (AudioClip AC) {
 		Voice.clip = AC;
 		Voice.Play();
+	}
+	
+	void Heal (int num) {
+		if (num < 0) {
+			this.GetComponent<Health>().Wound += num;
+		} else {
+			Stamina += (float)num;
+			if (this.GetComponent<Health>().Wound <= 5 && this.GetComponent<Health>().Wound > 0) {
+				this.GetComponent<Health>().Wound -= 1;
+			}
+		}
+	}
+	
+	void Die () {
+		if (!Anim.GetBool("isDying")) {
+			Anim.SetBool("isDying", true);
+			Anim.Play("Die");
+		}
+	}
+	
+	void Lose () {
+		Application.LoadLevel("Dungeon");
 	}
 }

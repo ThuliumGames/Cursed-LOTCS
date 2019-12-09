@@ -28,6 +28,7 @@ public class Sun : MonoBehaviour {
 	
 
 	void Update () {
+		GlobVars.DaySpeed = TimeMultiplier*2;
 		
 		for (int i = 0; i < SSV.profile.components.Count; i++) {
 			if(SSV.profile.components[i].name == "ColorAdjustments(Clone)") {

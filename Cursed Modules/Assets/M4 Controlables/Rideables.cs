@@ -10,7 +10,7 @@ public class Rideables : MonoBehaviour {
 	public GameObject Player;
 	
 	public void GetOn () {
-		Player = GameObject.Find("Player");
+		Player = GlobVars.CurrentPlayer;
 		if (GlobVars.InteractObject == this.gameObject) {
 			Riding = true;
 			GlobVars.Reading = true;

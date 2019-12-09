@@ -9,10 +9,8 @@ public class OnlyLoadIfClose : MonoBehaviour {
 	
 	void Update () {
 		Obj.SetActive(false);
-		foreach (Health Ps in GameObject.FindObjectsOfType<Health>()) {
-			if (Vector3.Distance(transform.position, Ps.transform.position) < Range) {
-				Obj.SetActive(true);
-			}
+		if (Vector3.Distance(transform.position, GameObject.FindObjectOfType<Movement>().transform.position) < Range) {
+			Obj.SetActive(true);
 		}
 	}
 	

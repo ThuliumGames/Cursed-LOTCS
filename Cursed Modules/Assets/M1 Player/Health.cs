@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Health : MonoBehaviour {
 	
 	public float Wound;
+	float WoundPre;
 	
 	public float BaseResistance = 5;
 	public float RecoveryTime;
@@ -15,7 +16,7 @@ public class Health : MonoBehaviour {
 	
 	public int HurtLayer;
 	
-	float T;
+	public float T;
 	
 	bool CanChange;
 	
@@ -25,6 +26,12 @@ public class Health : MonoBehaviour {
 	float invulnTimer;
 	
 	void Update () {
+		
+		if (Wound != WoundPre) {
+			T = 0;
+		}
+		
+		WoundPre = Wound;
 		
 		//SetUp Armor
 		for (int i = 0; i < 3; i++) {
@@ -52,12 +59,10 @@ public class Health : MonoBehaviour {
 			if (Wound >= 5) {
 				if (T >= RecoveryTime) {
 					++Wound;
-					T = 0;
 				}
 			} else {
 				if (T >= RecoveryTime) {
 					--Wound;
-					T = 0;
 				}
 			}
 		}
@@ -65,8 +70,8 @@ public class Health : MonoBehaviour {
 		
 		//Display Health
 		if (isPlayer) {
-
-			Graphics[0].fillAmount = (-(Wound/10))+1;
+			Graphics[5].fillAmount = T/RecoveryTime;
+			Graphics[0].fillAmount = (-(Wound/10)*0.71f+0.71f)+0.03f;
 			
 			for (int i = 0; i < 3; i++) {
 				if (ArmorObject[i] != null) {

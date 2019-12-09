@@ -13,15 +13,26 @@ public class Interactables : MonoBehaviour {
 	
 	bool MustLeave;
 	
+	void Start () {
+		GlobalOffset = (((transform.right).normalized*GlobalOffset.x) + ((transform.up).normalized*GlobalOffset.y) + ((transform.forward).normalized*GlobalOffset.z));
+	}
+	
 	void Update () {
+		
+		if (Vector3.Distance (transform.position+GlobalOffset, GlobVars.CurrentPlayer.transform.position) <= Range) {
+			TryInteract();
+		}
+	}
+	
+	void TryInteract () {
 		
 		float Dist = 10000;
 		
-		float DFP = Vector3.Distance (transform.position+GlobalOffset, GameObject.Find("Player").transform.position);
+		float DFP = Vector3.Distance (transform.position+GlobalOffset, GlobVars.CurrentPlayer.transform.position);
 		
 		foreach (Interactables I in GameObject.FindObjectsOfType<Interactables>()) {
 			
-			DFP = Vector3.Distance (I.transform.position+I.GlobalOffset, GameObject.Find("Player").transform.position);
+			DFP = Vector3.Distance (I.transform.position+I.GlobalOffset, GlobVars.CurrentPlayer.transform.position);
 			
 			if (DFP < Dist && DFP <= Range) {
 				if (DFP < Dist) {
@@ -30,7 +41,7 @@ public class Interactables : MonoBehaviour {
 			}
 		}
 		
-		DFP = Vector3.Distance (transform.position+GlobalOffset, GameObject.Find("Player").transform.position);
+		DFP = Vector3.Distance (transform.position+GlobalOffset, GlobVars.CurrentPlayer.transform.position);
 		
 		if (Dist == DFP) {
 			GlobVars.ClosestInteractable = this.gameObject;
@@ -62,6 +73,10 @@ public class Interactables : MonoBehaviour {
 	}
 	
 	void OnDrawGizmosSelected () {
-		Gizmos.DrawWireSphere(transform.position+GlobalOffset, Range);
+		if (Application.isPlaying) {
+			Gizmos.DrawWireSphere(transform.position + GlobalOffset, Range);
+		} else {
+			Gizmos.DrawWireSphere(transform.position + (((transform.right).normalized*GlobalOffset.x) + ((transform.up).normalized*GlobalOffset.y) + ((transform.forward).normalized*GlobalOffset.z)), Range);
+		}
 	}
 }

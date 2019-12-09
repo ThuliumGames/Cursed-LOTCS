@@ -31,6 +31,7 @@ public class ItemMenu : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 		}
 		
 		if (SSInput.A[0] == "Pressed" && inside && (GetComponentInChildren<Image>().sprite != null || Place >= 6)) {
+			inside = false;
 			Click();
 		}
 		IN.transform.localPosition = Input.mousePosition-new Vector3(Screen.width/2, (Screen.height/2)-100, 0);

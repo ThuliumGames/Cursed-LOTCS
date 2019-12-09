@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Door
+  - CrystalSabre
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - Player
   - Player Weap
   - Enemy Weap
-  - 
+  - FabricCollider
   - 
   - 
   - 

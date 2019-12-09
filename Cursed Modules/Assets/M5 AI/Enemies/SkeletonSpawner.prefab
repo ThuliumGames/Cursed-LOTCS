@@ -46,7 +46,7 @@ MonoBehaviour:
   ObjToSpawn: {fileID: 1203727197531825615, guid: cc368465375c2f347b06121c81249bdc,
     type: 3}
   Num: 5
-  Range: 5
+  Range: 15
 --- !u!1 &5861536759249697131
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,4 +92,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Obj: {fileID: 805568043804423582}
-  Range: 10
+  Range: 20
